@@ -3,6 +3,7 @@ const userController = require('../controllers/userController');
 const loginController = require('../controllers/loginController');
 const clienteController = require('../controllers/clienteController');
 const contratoController = require('../controllers/contratoController');
+const planController = require('../controllers/planController');
 
 const verifyToken = require('../middlewares/jwt');
 
@@ -34,6 +35,10 @@ router.get('/getcontrato/:id', verifyToken, contratoController.getContratoById);
 router.post('/createcontrato', verifyToken, contratoController.createContrato);
 router.put('/updatecontrato/:id', verifyToken, contratoController.updateContrato);
 
-
+//RUTAS PLANES
+router.get('/getplanes', verifyToken, planController.getPlanes);
+router.get('/getplan/:id', verifyToken, planController.getPlanById);
+router.post('/createplan', verifyToken, planController.createPlan);
+router.put('/updateplan/:id', verifyToken, planController.updatePlan);
 
 module.exports = router;

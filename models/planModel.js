@@ -3,20 +3,20 @@ const pool = require('../database/connectiondb');
 
 const createPlan = async(Data) => {
     
-    const { idplanes, nombreplan, descplan, precioplan, velocidadplan, estado} = Data;
+    const { nombreplan, descplan, precioplan, velocidadplan, estado_plan} = Data;
 
     try {
         const client = await pool.connect();
-        const query = 'INSERT INTO planes(idplanes, nombreplan, descplan, precioplan, velocidadplan, estado) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *';
-        const values = [idplanes, nombreplan, descplan, precioplan, velocidadplan, estado];
+        const query = 'INSERT INTO planes(nombreplan, descplan, precioplan, velocidadplan, estado_plan) VALUES ($1, $2, $3, $4, $5) RETURNING *';
+        const values = [nombreplan, descplan, precioplan, velocidadplan, estado_plan];
         const result = await client.query(query, values);
         client.release();
         console.log("SOY El PLAN_MODEL")
         console.log(result.rows)
         return result.rows[0];
-        
+    
     } catch (error) {
-        console.log("Error creating Client: "+error);
+        console.log("Error creating Plan: "+error);
         throw error;
     }
 };
@@ -46,12 +46,12 @@ const getPlanes = async() => {
     }
 }
 
-const getContratoById = async(id) => {
-    const query = 'SELECT * FROM contrato WHERE num_contrato = $1';
+const getPlanById = async(id) => {
+    const query = 'SELECT * FROM planes WHERE idplanes = $1';
     const { rows } = await pool.query(query, [id]);
     return rows[0]
 }
 
 module.exports = {
-    createContrato, updateContrato, getContratos, getContratoById
+    createPlan, updatePlan, getPlanes, getPlanById
 }
