@@ -4,6 +4,7 @@ const loginController = require('../controllers/loginController');
 const clienteController = require('../controllers/clienteController');
 const contratoController = require('../controllers/contratoController');
 const planController = require('../controllers/planController');
+const instalacionController = require('../controllers/instalacionController');
 
 const verifyToken = require('../middlewares/jwt');
 
@@ -40,5 +41,11 @@ router.get('/getplanes', verifyToken, planController.getPlanes);
 router.get('/getplan/:id', verifyToken, planController.getPlanById);
 router.post('/createplan', verifyToken, planController.createPlan);
 router.put('/updateplan/:id', verifyToken, planController.updatePlan);
+
+//RUTAS INSTALACIONES
+router.get('/getinstalaciones', verifyToken, instalacionController.getInstalaciones);
+router.get('/getinstalacion/:id', verifyToken, instalacionController.getInstalacionById);
+router.post('/createinstalacion', verifyToken, instalacionController.createInstalacion);
+router.put('/updateinstalacion/:id', verifyToken, instalacionController.updateInstalacion);
 
 module.exports = router;

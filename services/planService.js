@@ -1,5 +1,4 @@
 const planModel = require('../models/planModel');
-const { updateContrato } = require('./contratoService');
 
 const createPlan = async(Data)=> {
     return planModel.createPlan(Data);
