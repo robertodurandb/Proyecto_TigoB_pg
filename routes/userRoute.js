@@ -5,6 +5,8 @@ const clienteController = require('../controllers/clienteController');
 const contratoController = require('../controllers/contratoController');
 const planController = require('../controllers/planController');
 const instalacionController = require('../controllers/instalacionController');
+const imagenController = require('../controllers/imagenController');
+const pagocontroller = require('../controllers/pagoController');
 
 const verifyToken = require('../middlewares/jwt');
 
@@ -47,5 +49,17 @@ router.get('/getinstalaciones', verifyToken, instalacionController.getInstalacio
 router.get('/getinstalacion/:id', verifyToken, instalacionController.getInstalacionById);
 router.post('/createinstalacion', verifyToken, instalacionController.createInstalacion);
 router.put('/updateinstalacion/:id', verifyToken, instalacionController.updateInstalacion);
+
+//RUTAS IMAGENES
+router.get('/getimagenes', verifyToken, imagenController.getImagenes);
+router.get('/getimagen/:id', verifyToken, imagenController.getImagenById);
+router.post('/createimagen', verifyToken, imagenController.createImagen);
+router.put('/updateimagen/:id', verifyToken, imagenController.updateImagen);
+
+//RUTAS PAGOS
+router.get('/getpagos', verifyToken, pagocontroller.getPagos);
+router.get('/getpago/:id', verifyToken, pagocontroller.getPagoById);
+router.post('/createpago', verifyToken, pagocontroller.createPago);
+router.put('/updatepago/:id', verifyToken, pagocontroller.updatePago);
 
 module.exports = router;

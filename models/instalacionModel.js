@@ -3,12 +3,12 @@ const pool = require('../database/connectiondb');
 
 const createInstalacion = async(Data) => {
     
-    const { fechainstalacion, geolocalizacion, user_create, fecha_create, estado_instalacion, observacion_instalacion, caja_instalacion, imagen_idimagen, user_update, fecha_update} = Data;
+    const { fechainstalacion, geolocalizacion, user_create, fecha_create, observacion_instalacion, caja_instalacion, imagen_idimagen, user_update, fecha_update} = Data;
 
     try {
         const client = await pool.connect();
-        const query = 'INSERT INTO instalacion(fechainstalacion, geolocalizacion, user_create, fecha_create, estado_instalacion, observacion_instalacion, caja_instalacion, imagen_idimagen) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
-        const values = [fechainstalacion, geolocalizacion, user_create, fecha_create, estado_instalacion, observacion_instalacion, caja_instalacion, imagen_idimagen];
+        const query = 'INSERT INTO instalacion(fechainstalacion, geolocalizacion, user_create, fecha_create, observacion_instalacion, caja_instalacion, imagen_idimagen) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *';
+        const values = [fechainstalacion, geolocalizacion, user_create, fecha_create, observacion_instalacion, caja_instalacion, imagen_idimagen];
         const result = await client.query(query, values);
         client.release();
         console.log("SOY INSTALACION_MODEL")

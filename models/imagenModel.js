@@ -22,13 +22,13 @@ const createImagen = async(Data) => {
 };
 
 // Función para actualizar un PLAN
-const updatePlan = async (id, Data) =>{
+const updateImagen = async (id, Data) =>{
     try {
-        const id_planes = id.id;
+        const id_imagen = id.id;
         const client = await pool.connect();
         
-        const query = `UPDATE planes SET ${Object.keys(Data).map(key => `${key} = '${Data[key]}'`).join(', ')} WHERE idplanes = $1 RETURNING *`;
-        const values = [id_planes];
+        const query = `UPDATE imagen SET ${Object.keys(Data).map(key => `${key} = '${Data[key]}'`).join(', ')} WHERE idimagen = $1 RETURNING *`;
+        const values = [id_imagen];
         const result = await client.query(query, values);
         return result.rows[0];
     } catch (err) {
@@ -36,22 +36,22 @@ const updatePlan = async (id, Data) =>{
     }
 }
 
-const getPlanes = async() => {
+const getImagenes = async() => {
     try {
-        const result = await pool.query("SELECT * FROM planes");
+        const result = await pool.query("SELECT * FROM imagen");
         return result.rows;
     } catch (error) {
-        console.log("Error Get Planes: "+error);
+        console.log("Error Get Imagenes: "+error);
         throw error;
     }
 }
 
-const getPlanById = async(id) => {
-    const query = 'SELECT * FROM planes WHERE idplanes = $1';
+const getImagenById = async(id) => {
+    const query = 'SELECT * FROM imagen WHERE idimagen = $1';
     const { rows } = await pool.query(query, [id]);
     return rows[0]
 }
 
 module.exports = {
-    createPlan, updatePlan, getPlanes, getPlanById
+    createImagen, updateImagen, getImagenes, getImagenById
 }
