@@ -38,6 +38,10 @@ router.get('/getcontrato/:id', verifyToken, contratoController.getContratoById);
 router.post('/createcontrato', verifyToken, contratoController.createContrato);
 router.put('/updatecontrato/:id', verifyToken, contratoController.updateContrato);
 
+router.get('/todoinstacli', verifyToken, contratoController.getContratosConInsta);
+router.get('/pendinstacli', verifyToken, contratoController.getContratosSinInsta);
+router.get('/todocontratosactiv', verifyToken, contratoController.getContratosAllInsta);
+
 //RUTAS PLANES
 router.get('/getplanes', verifyToken, planController.getPlanes);
 router.get('/getplan/:id', verifyToken, planController.getPlanById);
@@ -61,5 +65,6 @@ router.get('/getpagos', verifyToken, pagocontroller.getPagos);
 router.get('/getpago/:id', verifyToken, pagocontroller.getPagoById);
 router.post('/createpago', verifyToken, pagocontroller.createPago);
 router.put('/updatepago/:id', verifyToken, pagocontroller.updatePago);
+router.get('/getpagosall', verifyToken, pagocontroller.getPagosAll);
 
 module.exports = router;

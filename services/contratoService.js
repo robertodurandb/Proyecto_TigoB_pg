@@ -16,6 +16,16 @@ const updateContrato = async(id, contratoData)=>{
     return contratoModel.updateContrato(id, contratoData);
 }
 
+const getContratosSinInsta = async()=>{
+    return contratoModel.getContratosSinInsta();
+}
+const getContratosConInsta = async()=>{
+    return contratoModel.getContratosConInsta();
+}
+const getContratosAllInsta = async()=>{
+    return contratoModel.getContratosAllInsta();
+}
+
 module.exports={
-    createContrato, updateContrato, getContratos, getContratoById
+    createContrato, updateContrato, getContratos, getContratoById, getContratosSinInsta, getContratosConInsta, getContratosAllInsta
 }

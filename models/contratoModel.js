@@ -3,12 +3,12 @@ const pool = require('../database/connectiondb');
 
 const createContrato = async(contratoData) => {
     
-    const { num_contrato, planes_idplanes, cliente_dnicliente, fecha_contrato, diapago, fechaprog_instalacion, observacion_instalacion, instalacion_idinstalacion, estadoc_instalacion } = contratoData;
+    const { num_contrato, planes_idplanes, cliente_dnicliente, fecha_contrato, diapago, fechaprog_instalacion, observacion_contrato, instalacion_idinstalacion, estadoc_instalacion } = contratoData;
 
     try {
         const client = await pool.connect();
-        const query = 'INSERT INTO contrato(num_contrato, planes_idplanes, cliente_dnicliente, fecha_contrato, diapago, fechaprog_instalacion, observacion_instalacion, instalacion_idinstalacion, estadoc_instalacion) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *';
-        const values = [num_contrato, planes_idplanes, cliente_dnicliente, fecha_contrato, diapago, fechaprog_instalacion, observacion_instalacion, instalacion_idinstalacion, estadoc_instalacion];
+        const query = 'INSERT INTO contrato(num_contrato, planes_idplanes, cliente_dnicliente, fecha_contrato, diapago, fechaprog_instalacion, observacion_contrato, instalacion_idinstalacion, estadoc_instalacion) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *';
+        const values = [num_contrato, planes_idplanes, cliente_dnicliente, fecha_contrato, diapago, fechaprog_instalacion, observacion_contrato, instalacion_idinstalacion, estadoc_instalacion];
         const result = await client.query(query, values);
         client.release();
         console.log("SOY El CONTRATOMODEL")
@@ -52,6 +52,42 @@ const getContratoById = async(id) => {
     return rows[0]
 }
 
+//*************** TODOS LOS CLIENTES CON PRE-CONTRATO, CON INSTALACION PENDIENTE *****************//
+const getContratosSinInsta = async() => {
+    try {
+        const result = await pool.query("select dc.num_contrato, dc.diapago, dc.fecha_contrato, dc.fechaprog_instalacion, dc.observacion_contrato, dc.estadoc_instalacion, pl.nombreplan, cl.dnicliente, cl.apellidocli, nombrecli, cl.distritocli, cl.direccioncli, cl.telefonocli from contrato as dc INNER JOIN cliente as cl on dc.cliente_dnicliente=cl.dnicliente INNER JOIN planes as pl on dc.planes_idplanes=pl.idplanesWHERE dc.estadoc_instalacion=1");
+        return result.rows;
+    } catch (error) {
+        console.log("Error Get Contratos: "+error);
+        throw error;
+    }
+}
+
+//******* TODOS LOS CLIENTES CON CONTRATO Y CON INSTALACIÓN ******/
+const getContratosConInsta = async() => {
+    try {
+        const result = await pool.query("select dc.num_contrato, dc.diapago, dc.observacion_contrato, dc.fecha_contrato, dc.fechaprog_instalacion, dc.estadoc_instalacion, pl.nombreplan, pl.precioplan, pl.velocidadplan, dc.instalacion_idinstalacion, cl.dnicliente, cl.nombrecli, cl.apellidocli, cl.distritocli, cl.direccioncli, cl.telefonocli, cl.fecha_nacimiento, it.fechainstalacion, it.geolocalizacion, it.user_create, it.fecha_create, it.observacion_instalacion, im.idimagen, im.nombreimg from contrato as dc INNER JOIN cliente as cl on dc.cliente_dnicliente=cl.dnicliente INNER JOIN planes as pl on dc.planes_idplanes=pl.idplanes INNER JOIN instalacion as it on dc.instalacion_idinstalacion=it.idinstalacion INNER JOIN imagen as im on it.imagen_idimagen=im.idimagen");
+        return result.rows;
+    } catch (error) {
+        console.log("Error Get Contratos: "+error);
+        throw error;
+    }
+}
+
+//*************** TODOS LOS CONTRATOS, CON INSTALACION PENDIENTE E INSTALADOS **/
+const getContratosAllInsta = async() => {
+    try {
+        const result = await pool.query("select dc.num_contrato, dc.cliente_dnicliente, dc.estadoc_instalacion, dc.diapago, dc.fecha_contrato, fechaprog_instalacion, dc.observacion_contrato, pl.nombreplan, cl.apellidocli, nombrecli, cl.distritocli, cl.direccioncli, cl.telefonocli from contrato as dc INNER JOIN cliente as cl on dc.cliente_dnicliente=cl.dnicliente INNER JOIN planes as pl on dc.planes_idplanes=pl.idplanes");
+        return result.rows;
+    } catch (error) {
+        console.log("Error Get Contratos: "+error);
+        throw error;
+    }
+}
+
+
+
+
 module.exports = {
-    createContrato, updateContrato, getContratos, getContratoById
+    createContrato, updateContrato, getContratos, getContratoById, getContratosAllInsta, getContratosConInsta, getContratosSinInsta
 }

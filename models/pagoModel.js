@@ -46,6 +46,16 @@ const getPagos = async() => {
     }
 }
 
+const getPagosAll = async() => {
+    try {
+        const result = await pool.query("SELECT pg.idpago2, pg.dnipago, cl.nombrecli, cl.apellidocli, pg.fechapago2, pg.hora, pg.descripcion, pg.monto, pg.agencia, pg.operacion FROM pago2 as pg INNER JOIN cliente as cl on pg.dnipago = cl.dnicliente");
+        return result.rows;
+    } catch (error) {
+        console.log("Error Get PagosAll: "+error);
+        throw error;
+    }
+}
+
 const getPagoById = async(id) => {
     const query = 'SELECT * FROM pago2 WHERE idpago2 = $1';
     const { rows } = await pool.query(query, [id]);
@@ -53,5 +63,5 @@ const getPagoById = async(id) => {
 }
 
 module.exports = {
-    createPago, updatePago, getPagos, getPagoById
+    createPago, updatePago, getPagos, getPagoById, getPagosAll
 }

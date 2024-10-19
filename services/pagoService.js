@@ -6,6 +6,9 @@ const createPago = async(Data)=> {
 const getPagos = async()=>{
     return pagoModel.getPagos();
 }
+const getPagosAll = async()=>{
+    return pagoModel.getPagosAll();
+}
 
 const getPagoById = async(id)=>{
     return pagoModel.getPagoById(id);
@@ -17,5 +20,5 @@ const updatePago = async(id, Data)=>{
 }
 
 module.exports={
-    createPago, updatePago, getPagos, getPagoById
+    createPago, updatePago, getPagos, getPagoById, getPagosAll
 }

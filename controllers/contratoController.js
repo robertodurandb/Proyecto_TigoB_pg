@@ -55,6 +55,46 @@ const updateContrato = async(req, res) => {
     }
 }
 
+const getContratosSinInsta = async(req, res) => {
+    try {
+        const contratos = await contratoService.getContratosSinInsta();
+        res.status(201).json(contratos)
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: 'Error server'
+        }) 
+    }
+}
+const getContratosConInsta = async(req, res) => {
+    try {
+        const contratos = await contratoService.getContratosConInsta();
+        res.status(201).json(contratos)
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: 'Error server'
+        }) 
+    }
+}
+const getContratosAllInsta = async(req, res) => {
+    try {
+        const contratos = await contratoService.getContratosAllInsta();
+        res.status(201).json(contratos)
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: 'Error server'
+        }) 
+    }
+}
+
 module.exports = {
-    getContratos, getContratoById, createContrato, updateContrato
+    getContratos, getContratoById, createContrato, updateContrato, getContratosSinInsta, getContratosConInsta, getContratosAllInsta
 }

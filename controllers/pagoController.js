@@ -13,6 +13,19 @@ const getPagos = async(req, res) => {
         }) 
     }
 }
+const getPagosAll = async(req, res) => {
+    try {
+        const pagos = await pagoService.getPagosAll();
+        res.status(201).json(pagos)
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: 'Error server'
+        }) 
+    }
+}
 const getPagoById = async(req, res) => {
     const {id} = req.params;
     try {
@@ -56,5 +69,5 @@ const updatePago = async(req, res) => {
 }
 
 module.exports = {
-    getPagos, getPagoById, createPago, updatePago
+    getPagos, getPagoById, createPago, updatePago, getPagosAll
 }
