@@ -8,7 +8,7 @@ const doLogin = async(req, res) => {
     try {
         const client = await pool.connect();
         const query = 'SELECT * FROM usuarios WHERE id_user = $1 AND estado_user = $2';
-        const values = [id_user, 1];
+        const values = [id_user.toLowerCase(), 1];
         const user = await client.query(query, values);
   
       if (user.rows.length === 0) {
