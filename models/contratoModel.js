@@ -77,7 +77,7 @@ const getContratosConInsta = async() => {
 //*************** TODOS LOS CONTRATOS, CON INSTALACION PENDIENTE E INSTALADOS **/
 const getContratosAllInsta = async() => {
     try {
-        const result = await pool.query("select dc.num_contrato, dc.cliente_dnicliente, dc.estadoc_instalacion, dc.diapago, dc.fecha_contrato, fechaprog_instalacion, dc.observacion_contrato, pl.nombreplan, cl.apellidocli, nombrecli, cl.distritocli, cl.direccioncli, cl.telefonocli from contrato as dc INNER JOIN cliente as cl on dc.cliente_dnicliente=cl.dnicliente INNER JOIN planes as pl on dc.planes_idplanes=pl.idplanes");
+        const result = await pool.query("select dc.num_contrato, dc.cliente_dnicliente, dc.estadoc_instalacion, dc.diapago, to_char(dc.fecha_contrato, 'YYYY-MM-DD') as fecha_contrato, to_char(dc.fechaprog_instalacion, 'YYYY-MM-DD') as fechaprog_instalacion, dc.observacion_contrato, pl.nombreplan, cl.apellidocli, nombrecli, cl.distritocli, cl.direccioncli, cl.telefonocli from contrato as dc INNER JOIN cliente as cl on dc.cliente_dnicliente=cl.dnicliente INNER JOIN planes as pl on dc.planes_idplanes=pl.idplanes");
         return result.rows;
     } catch (error) {
         console.log("Error Get Contratos: "+error);
