@@ -3,7 +3,7 @@ const pool = require('../database/connectiondb');
 
 const createInstalacion = async(Data) => {
     
-    const { fechainstalacion, geolocalizacion, user_create, fecha_create, observacion_instalacion, caja_instalacion, imagen_idimagen, user_update, fecha_update} = Data;
+    const { fechainstalacion, geolocalizacion, user_create, fecha_create, observacion_instalacion, caja_instalacion, imagen_idimagen} = Data;
 
     try {
         const client = await pool.connect();

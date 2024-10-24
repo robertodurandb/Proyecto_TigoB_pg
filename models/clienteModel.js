@@ -39,7 +39,7 @@ const updateCliente = async (id, clientData) =>{
 
 const getClientes = async() => {
     try {
-        const result = await pool.query("select dnicliente, nombrecli, apellidocli, direccioncli, distritocli, provinciacli, to_char(fecha_nacimiento, 'YYYY/MM/DD') as fecha_nacimiento, telefonocli FROM cliente");
+        const result = await pool.query("select dnicliente, nombrecli, apellidocli, direccioncli, distritocli, provinciacli, to_char(fecha_nacimiento, 'YYYY-MM-DD') as fecha_nacimiento, telefonocli FROM cliente");
         return result.rows;
     } catch (error) {
         console.log("Error Get Clients: "+error);

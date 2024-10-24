@@ -1,10 +1,26 @@
 const { Pool } = require('pg');
 const pool = require('../database/connectiondb');
 
-const createImagen = async(Data) => {
-    
+const createImagen = async(Data) => {  
     const { nombreimg, tipo} = Data;
+    try {
+        const client = await pool.connect();
+        const query = 'INSERT INTO imagen(nombreimg, tipo) VALUES ($1, $2) RETURNING *';
+        const values = [nombreimg, tipo];
+        const result = await client.query(query, values);
+        client.release();
+        console.log("SOY El imagenModel")
+        console.log(result.rows)
+        return result.rows[0];
+    
+    } catch (error) {
+        console.log("Error creating Imagen: "+error);
+        throw error;
+    }
+};
 
+const createImagen2 = async(Data) => {  
+    const { nombreimg, tipo} = Data;
     try {
         const client = await pool.connect();
         const query = 'INSERT INTO imagen(nombreimg, tipo) VALUES ($1, $2) RETURNING *';
@@ -53,5 +69,5 @@ const getImagenById = async(id) => {
 }
 
 module.exports = {
-    createImagen, updateImagen, getImagenes, getImagenById
+    createImagen, updateImagen, getImagenes, getImagenById, createImagen2
 }

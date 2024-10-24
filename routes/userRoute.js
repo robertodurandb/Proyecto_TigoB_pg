@@ -60,6 +60,13 @@ router.get('/getimagen/:id', verifyToken, imagenController.getImagenById);
 router.post('/createimagen', verifyToken, imagenController.createImagen);
 router.put('/updateimagen/:id', verifyToken, imagenController.updateImagen);
 
+//UPLOAD AND LOAD IMAGENES
+router.get('/:img', function(req, res){
+    res.sendFile( `uploads/${img}` );
+});
+router.post('/imagen', imagenController.newupload, imagenController.uploadfile)
+router.put('/imagen/:id', imagenController.newupload)
+
 //RUTAS PAGOS
 router.get('/getpagos', verifyToken, pagocontroller.getPagos);
 router.get('/getpago/:id', verifyToken, pagocontroller.getPagoById);

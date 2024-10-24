@@ -3,6 +3,9 @@ const imagenModel = require('../models/imagenModel');
 const createImagen = async(Data)=> {
     return imagenModel.createImagen(Data);
 }
+const createImagen2 = async(Data)=> {
+    return imagenModel.createImagen2(Data);
+}
 const getImagenes = async()=>{
     return imagenModel.getImagenes();
 }
@@ -17,5 +20,5 @@ const updateImagen = async(id, Data)=>{
 }
 
 module.exports={
-    createImagen, updateImagen, getImagenById, getImagenes
+    createImagen, updateImagen, getImagenById, getImagenes, createImagen2
 }

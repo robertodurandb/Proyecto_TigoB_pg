@@ -1,4 +1,5 @@
 const imagenService = require('../services/imagenService')
+const multer = require('multer')
 
 const getImagenes = async(req, res) => {
     try {
@@ -55,6 +56,50 @@ const updateImagen = async(req, res) => {
     }
 }
 
+// Configuración de Multer
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'uploads/'); // Directorio donde se guardarán las imágenes
+    },
+    filename: (req, file, cb) => {
+      cb(null, Date.now() + '-' + file.originalname) // Nombre único para el archivo
+    }
+  })
+  let upload = multer({ storage: storage })
+  const newupload = upload.single('image')
+
+  // Ruta para subir imágenes
+// const uploadfile2 = (req, res) => {
+//     req.getConnection((err, conn)=>{
+//        if(err) return res.send(err)
+//            const tipo = req.file.mimetype
+//            const nombreimg = req.file.filename
+    
+//            conn.query('INSERT INTO imagen set ?', 
+//              [{tipo, nombreimg}], (err, rows)=>{
+//                if(err) {
+//                    return res.status(401).send(err)
+//                }else{
+//                    let idimag = rows.insertId;
+//                    res.status(200).send('Imagen added, '+idimag)
+//                   console.log(req.file.filename)
+//                }
+//            })
+//     })
+//     }
+    const uploadfile = async(req, res) => {
+        try { 
+            const nombreimg = req.file.filename;
+            const tipo = req.file.mimetype;
+            const Data = {nombreimg, tipo}
+            const newImagen = await imagenService.createImagen2(Data);
+            res.status(201).json(newImagen);
+            console.log(Data)
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+
 module.exports = {
-    getImagenes, getImagenById, createImagen, updateImagen
+    getImagenes, getImagenById, createImagen, updateImagen, newupload, uploadfile
 }

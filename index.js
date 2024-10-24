@@ -9,6 +9,7 @@ const app = express();
 
 //middlewares
 app.use(cors());
+app.use(express.static('uploads'));
 // Middleware para parsear el cuerpo de las solicitudes
 app.use(express.json());
 
