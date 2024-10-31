@@ -38,7 +38,7 @@ const updatePlan = async (id, Data) =>{
 
 const getPlanes = async() => {
     try {
-        const result = await pool.query("SELECT * FROM planes");
+        const result = await pool.query("select * from planes as pl INNER JOIN estado as es on es.id_estado = pl.estado_plan");
         return result.rows;
     } catch (error) {
         console.log("Error Get Planes: "+error);

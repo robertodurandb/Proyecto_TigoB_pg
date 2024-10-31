@@ -1,4 +1,32 @@
 const instalacionService = require('../services/instalacionService')
+const multer = require('multer')
+
+// Configuración de Multer
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'uploads/'); // Directorio donde se guardarán las imágenes
+    },
+    filename: (req, file, cb) => {
+      cb(null, Date.now() + '-' + file.originalname) // Nombre único para el archivo
+    }
+  })
+  let upload = multer({ storage: storage })
+  const newupload = upload.single('image')
+
+  const updateImagen = async(req, res) => {
+    try { 
+        const id = req.params;
+        const nombreimg = req.file.filename;
+        const tipoimg = req.file.mimetype;
+        const Data = {nombreimg, tipoimg};
+        const imagenUpdate = await instalacionService.updateImagen(id,Data);
+        
+        res.status(201).json(imagenUpdate);
+        console.log("se actualizo la imagen en Controller")
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
 
 const getInstalaciones = async(req, res) => {
     try {
@@ -56,5 +84,5 @@ const updateInstalacion = async(req, res) => {
 }
 
 module.exports = {
-    getInstalaciones, getInstalacionById, createInstalacion, updateInstalacion
+    getInstalaciones, getInstalacionById, createInstalacion, updateInstalacion, updateImagen, newupload
 }

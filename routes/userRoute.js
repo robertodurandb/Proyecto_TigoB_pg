@@ -7,6 +7,7 @@ const planController = require('../controllers/planController');
 const instalacionController = require('../controllers/instalacionController');
 const imagenController = require('../controllers/imagenController');
 const pagocontroller = require('../controllers/pagoController');
+const estadoController = require('../controllers/estadoController');
 
 const verifyToken = require('../middlewares/jwt');
 
@@ -53,6 +54,7 @@ router.get('/getinstalaciones', verifyToken, instalacionController.getInstalacio
 router.get('/getinstalacion/:id', verifyToken, instalacionController.getInstalacionById);
 router.post('/createinstalacion', verifyToken, instalacionController.createInstalacion);
 router.put('/updateinstalacion/:id', verifyToken, instalacionController.updateInstalacion);
+router.put('/updateimagen/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen);
 
 //RUTAS IMAGENES
 router.get('/getimagenes', verifyToken, imagenController.getImagenes);
@@ -60,10 +62,16 @@ router.get('/getimagen/:id', verifyToken, imagenController.getImagenById);
 router.post('/createimagen', verifyToken, imagenController.createImagen);
 router.put('/updateimagen/:id', verifyToken, imagenController.updateImagen);
 
-//UPLOAD AND LOAD IMAGENES
+// UPLOAD AND LOAD IMAGENES
 // router.get('/:img', function(req, res){
-//     res.sendFile( `uploads/${img}` );
+    // res.sendFile( `uploads/${img}` );
+//     res.send("En Desarrollo")
 // });
+// router.get('/:imagen', (req, res) => {
+//     const imagen = req.params.imagen;
+//     res.sendFile(__dirname + '/uploads/' + imagen);
+// });
+
 router.post('/imagen', imagenController.newupload, imagenController.uploadfile)
 router.put('/imagen/:id', imagenController.newupload)
 
@@ -73,5 +81,8 @@ router.get('/getpago/:id', verifyToken, pagocontroller.getPagoById);
 router.post('/createpago', verifyToken, pagocontroller.createPago);
 router.put('/updatepago/:id', verifyToken, pagocontroller.updatePago);
 router.get('/getpagosall', verifyToken, pagocontroller.getPagosAll);
+
+//RUTAS ESTADOS
+router.get('/getestados', verifyToken, estadoController.getEstados);
 
 module.exports = router;

@@ -15,7 +15,10 @@ const updateInstalacion = async(id, Data)=>{
     // Por ejemplo, validaciones, notificaciones, etc.
     return instalacionModel.updateInstalacion(id, Data);
 }
+const updateImagen = async(id, Data)=>{
+    return instalacionModel.updateImagen(id, Data);
+}
 
 module.exports={
-    createInstalacion, updateInstalacion, getInstalaciones, getInstalacionById
+    createInstalacion, updateInstalacion, getInstalaciones, getInstalacionById, updateImagen
 }

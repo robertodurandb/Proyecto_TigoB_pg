@@ -68,25 +68,6 @@ const storage = multer.diskStorage({
   let upload = multer({ storage: storage })
   const newupload = upload.single('image')
 
-  // Ruta para subir imágenes
-// const uploadfile2 = (req, res) => {
-//     req.getConnection((err, conn)=>{
-//        if(err) return res.send(err)
-//            const tipo = req.file.mimetype
-//            const nombreimg = req.file.filename
-    
-//            conn.query('INSERT INTO imagen set ?', 
-//              [{tipo, nombreimg}], (err, rows)=>{
-//                if(err) {
-//                    return res.status(401).send(err)
-//                }else{
-//                    let idimag = rows.insertId;
-//                    res.status(200).send('Imagen added, '+idimag)
-//                   console.log(req.file.filename)
-//                }
-//            })
-//     })
-//     }
     const uploadfile = async(req, res) => {
         try { 
             const nombreimg = req.file.filename;
