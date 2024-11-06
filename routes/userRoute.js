@@ -5,7 +5,7 @@ const clienteController = require('../controllers/clienteController');
 const contratoController = require('../controllers/contratoController');
 const planController = require('../controllers/planController');
 const instalacionController = require('../controllers/instalacionController');
-const imagenController = require('../controllers/imagenController');
+// const imagenController = require('../controllers/imagenController');
 const pagocontroller = require('../controllers/pagoController');
 const estadoController = require('../controllers/estadoController');
 
@@ -57,23 +57,13 @@ router.put('/updateinstalacion/:id', verifyToken, instalacionController.updateIn
 router.put('/updateimagen/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen);
 
 //RUTAS IMAGENES
-router.get('/getimagenes', verifyToken, imagenController.getImagenes);
-router.get('/getimagen/:id', verifyToken, imagenController.getImagenById);
-router.post('/createimagen', verifyToken, imagenController.createImagen);
-router.put('/updateimagen/:id', verifyToken, imagenController.updateImagen);
+// router.get('/getimagenes', verifyToken, imagenController.getImagenes);
+// router.get('/getimagen/:id', verifyToken, imagenController.getImagenById);
+// router.post('/createimagen', verifyToken, imagenController.createImagen);
+// router.put('/updateimagen/:id', verifyToken, imagenController.updateImagen);
 
-// UPLOAD AND LOAD IMAGENES
-// router.get('/:img', function(req, res){
-    // res.sendFile( `uploads/${img}` );
-//     res.send("En Desarrollo")
-// });
-// router.get('/:imagen', (req, res) => {
-//     const imagen = req.params.imagen;
-//     res.sendFile(__dirname + '/uploads/' + imagen);
-// });
-
-router.post('/imagen', imagenController.newupload, imagenController.uploadfile)
-router.put('/imagen/:id', imagenController.newupload)
+// router.post('/imagen', imagenController.newupload, imagenController.uploadfile)
+// router.put('/imagen/:id', imagenController.newupload)
 
 //RUTAS PAGOS
 router.get('/getpagos', verifyToken, pagocontroller.getPagos);

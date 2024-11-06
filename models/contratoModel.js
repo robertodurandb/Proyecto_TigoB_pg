@@ -3,12 +3,12 @@ const pool = require('../database/connectiondb');
 
 const createContrato = async(contratoData) => {
     
-    const { num_contrato, planes_idplanes, cliente_dnicliente, fecha_contrato, diapago, fechaprog_instalacion, observacion_contrato, instalacion_idinstalacion, estadoc_instalacion, estado_servicio } = contratoData;
+    const { num_contrato, planes_idplanes, cliente_dnicliente, fecha_contrato, diapago, fechaprog_instalacion, observacion_contrato, instalacion_idinstalacion, estadoc_instalacion, estado_servicio, fecha_create, user_create, fecha_update, user_update } = contratoData;
 
     try {
         const client = await pool.connect();
-        const query = 'INSERT INTO contrato(num_contrato, planes_idplanes, cliente_dnicliente, fecha_contrato, diapago, fechaprog_instalacion, observacion_contrato, instalacion_idinstalacion, estadoc_instalacion, estado_servicio) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *';
-        const values = [num_contrato, planes_idplanes, cliente_dnicliente, fecha_contrato, diapago, fechaprog_instalacion, observacion_contrato, instalacion_idinstalacion, estadoc_instalacion, estado_servicio];
+        const query = 'INSERT INTO contrato(num_contrato, planes_idplanes, cliente_dnicliente, fecha_contrato, diapago, fechaprog_instalacion, observacion_contrato, instalacion_idinstalacion, estadoc_instalacion, estado_servicio, fecha_create, user_create, fecha_update, user_update) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *';
+        const values = [num_contrato, planes_idplanes, cliente_dnicliente, fecha_contrato, diapago, fechaprog_instalacion, observacion_contrato, instalacion_idinstalacion, estadoc_instalacion, estado_servicio, fecha_create, user_create, fecha_update, user_update];
         const result = await client.query(query, values);
         client.release();
         console.log("SOY El CONTRATOMODEL")
