@@ -5,9 +5,9 @@ const clienteController = require('../controllers/clienteController');
 const contratoController = require('../controllers/contratoController');
 const planController = require('../controllers/planController');
 const instalacionController = require('../controllers/instalacionController');
-// const imagenController = require('../controllers/imagenController');
 const pagocontroller = require('../controllers/pagoController');
 const estadoController = require('../controllers/estadoController');
+const cambioestadoController = require('../controllers/cambioestadoController');
 
 const verifyToken = require('../middlewares/jwt');
 
@@ -56,21 +56,16 @@ router.post('/createinstalacion', verifyToken, instalacionController.createInsta
 router.put('/updateinstalacion/:id', verifyToken, instalacionController.updateInstalacion);
 router.put('/updateimagen/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen);
 
-//RUTAS IMAGENES
-// router.get('/getimagenes', verifyToken, imagenController.getImagenes);
-// router.get('/getimagen/:id', verifyToken, imagenController.getImagenById);
-// router.post('/createimagen', verifyToken, imagenController.createImagen);
-// router.put('/updateimagen/:id', verifyToken, imagenController.updateImagen);
-
-// router.post('/imagen', imagenController.newupload, imagenController.uploadfile)
-// router.put('/imagen/:id', imagenController.newupload)
-
 //RUTAS PAGOS
 router.get('/getpagos', verifyToken, pagocontroller.getPagos);
 router.get('/getpago/:id', verifyToken, pagocontroller.getPagoById);
 router.post('/createpago', verifyToken, pagocontroller.createPago);
 router.put('/updatepago/:id', verifyToken, pagocontroller.updatePago);
 router.get('/getpagosall', verifyToken, pagocontroller.getPagosAll);
+
+//RUTAS CAMBIOESTADOS
+router.get('/getcambioestados', verifyToken, cambioestadoController.getCambioestados);
+router.post('/createcambioestado', verifyToken, cambioestadoController.createCambioestado);
 
 //RUTAS ESTADOS
 router.get('/getestados', verifyToken, estadoController.getEstados);
