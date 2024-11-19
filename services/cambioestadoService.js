@@ -6,7 +6,10 @@ const createCambioestado = async(Data)=> {
 const getCambioestados = async()=>{
     return cambioestadoModel.getCambioestados();
 }
+const getCambioestadosAll = async()=>{
+    return cambioestadoModel.getCambioestadosAll();
+}
 
 module.exports={
-    createCambioestado, getCambioestados
+    createCambioestado, getCambioestados, getCambioestadosAll
 }

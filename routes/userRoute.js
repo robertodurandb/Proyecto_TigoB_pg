@@ -65,7 +65,9 @@ router.get('/getpagosall', verifyToken, pagocontroller.getPagosAll);
 
 //RUTAS CAMBIOESTADOS
 router.get('/getcambioestados', verifyToken, cambioestadoController.getCambioestados);
+router.get('/getcambioestadosall', verifyToken, cambioestadoController.getCambioestadosAll);
 router.post('/createcambioestado', verifyToken, cambioestadoController.createCambioestado);
+
 
 //RUTAS ESTADOS
 router.get('/getestados', verifyToken, estadoController.getEstados);

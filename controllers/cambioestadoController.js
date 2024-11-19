@@ -24,6 +24,20 @@ const getCambioestados = async(req, res) => {
     }
 }
 
+const getCambioestadosAll = async(req, res) => {
+    try {
+        const cambioestadosall = await cambioestadoServide.getCambioestadosAll();
+        res.status(201).json(cambioestadosall)
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: 'Error server'
+        }) 
+    }
+}
+
 module.exports = {
-    getCambioestados, createCambioestado
+    getCambioestados, createCambioestado, getCambioestadosAll
 }
