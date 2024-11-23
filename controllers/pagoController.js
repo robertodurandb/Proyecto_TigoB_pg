@@ -1,5 +1,60 @@
 const pagoService = require('../services/pagoService')
+const multer = require('multer')
+const exceljs = require('exceljs')
 
+// Configuración de Multer
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'upload_pagos/'); // Directorio donde se guardarán las imágenes
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname) // Nombre único para el archivo
+  }
+})
+let upload = multer({ storage: storage })
+const newexcelfile = upload.single('excel')
+
+//INSERT PAGOS CARGADOS
+const insertPagos = async(req, res) => {
+
+    try {
+     // Recibir el archivo Excel
+     const file = req.file
+  
+    // Leer el archivo Excel
+    const workbook = new exceljs.Workbook();
+    await workbook.xlsx.readFile(file.path)
+        const worksheet = workbook.getWorksheet(1); // Suponiendo que los datos están en la primera hoja
+        // Iterar sobre las filas y insertar los datos en la base de datos
+        worksheet.eachRow((row, number) => {
+          if (number > 5) { // Saltar la cabecera
+            let datofecha = row.getCell(1).value
+            const partesFecha = datofecha.split('/');
+            const newdatofecha = new Date(partesFecha[2], partesFecha[1] - 1, partesFecha[0]).toISOString().slice(0, 10);
+            const Data = {
+              // Mapear los datos de la fila a los campos de la tabla            
+              fechapago2: newdatofecha,
+              descripcion: row.getCell(3).value,
+              dnipago: row.getCell(4).value,
+              monto: row.getCell(5).value,
+              agencia: row.getCell(7).value,
+              operacion: row.getCell(8).value,
+              hora: row.getCell(9).value,
+              // ...
+            };
+            pagoService.insertPagos(Data)
+        }       
+    })
+        
+
+        res.status(201).json("Data corrercta");
+        
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+
+//GET PAGOS
 const getPagos = async(req, res) => {
     try {
         const pagos = await pagoService.getPagos();
@@ -69,5 +124,5 @@ const updatePago = async(req, res) => {
 }
 
 module.exports = {
-    getPagos, getPagoById, createPago, updatePago, getPagosAll
+    getPagos, getPagoById, createPago, updatePago, getPagosAll, newexcelfile, insertPagos
 }

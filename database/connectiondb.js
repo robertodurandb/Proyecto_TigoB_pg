@@ -6,9 +6,9 @@ const pool = new Pool({
   database: 'clientestigo',
   password: 'Ingenieria5704722',
   port: 5432, // Por defecto, pero puedes modificarlo si es necesario
-  max: 10, // Número máximo de conexiones en el pool
+  max: 100, // Número máximo de conexiones en el pool
   idleTimeoutMillis: 30000, // Tiempo de inactividad antes de cerrar una conexión
-  connectionTimeoutMillis: 2000 // Tiempo máximo para establecer una conexión
+  connectionTimeoutMillis: 3000 // Tiempo máximo para establecer una conexión
 });
 
 module.exports = pool;

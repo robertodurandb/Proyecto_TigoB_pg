@@ -63,6 +63,8 @@ router.post('/createpago', verifyToken, pagocontroller.createPago);
 router.put('/updatepago/:id', verifyToken, pagocontroller.updatePago);
 router.get('/getpagosall', verifyToken, pagocontroller.getPagosAll);
 
+router.post('/importar', verifyToken, pagocontroller.newexcelfile, pagocontroller.insertPagos);
+
 //RUTAS CAMBIOESTADOS
 router.get('/getcambioestados', verifyToken, cambioestadoController.getCambioestados);
 router.get('/getcambioestadosall', verifyToken, cambioestadoController.getCambioestadosAll);

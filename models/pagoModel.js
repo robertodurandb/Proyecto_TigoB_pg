@@ -1,5 +1,33 @@
 const { Pool } = require('pg');
 const pool = require('../database/connectiondb');
+const winston = require('winston');
+
+const logger = winston.createLogger({
+    level: 'info',
+    format: winston.format.json(),
+    defaultMeta: { service: 'user-service' },
+    transports: [
+        new winston.transports.File({ filename: 'combined.log' }),
+        new winston.transports.Console({ format: winston.format.simple(),
+         })
+    ]
+});
+
+const insertPagos = async (Data) =>{
+
+    const { fechapago2, dnipago, descripcion, monto, agencia, operacion, hora } = Data;
+    try {
+        const client = await pool.connect();
+        const query = 'INSERT INTO pago2(fechapago2, dnipago, descripcion, monto, agencia, operacion, hora) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *';
+        const values = [fechapago2, dnipago, descripcion, monto, agencia, operacion, hora];
+        const result = await client.query(query, values);
+        client.release();
+        logger.info("Registro de pago exitoso para el DNI: "+result.rows[0].dnipago)
+        return result.rows[0];
+    } catch (error) {
+        logger.error("Error: "+error.detail)
+    }
+}
 
 const createPago = async(Data) => {
     
@@ -63,5 +91,5 @@ const getPagoById = async(id) => {
 }
 
 module.exports = {
-    createPago, updatePago, getPagos, getPagoById, getPagosAll
+    createPago, updatePago, getPagos, getPagoById, getPagosAll, insertPagos
 }

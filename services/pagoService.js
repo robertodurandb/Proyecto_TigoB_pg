@@ -1,5 +1,8 @@
 const pagoModel = require('../models/pagoModel');
 
+const insertPagos = async(Data)=>{
+    return pagoModel.insertPagos(Data);
+}
 const createPago = async(Data)=> {
     return pagoModel.createPago(Data);
 }
@@ -20,5 +23,5 @@ const updatePago = async(id, Data)=>{
 }
 
 module.exports={
-    createPago, updatePago, getPagos, getPagoById, getPagosAll
+    createPago, updatePago, getPagos, getPagoById, getPagosAll, insertPagos
 }
