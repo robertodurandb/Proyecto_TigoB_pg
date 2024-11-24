@@ -9,6 +9,8 @@ const pagocontroller = require('../controllers/pagoController');
 const estadoController = require('../controllers/estadoController');
 const cambioestadoController = require('../controllers/cambioestadoController');
 
+const fs = require('fs');
+
 const verifyToken = require('../middlewares/jwt');
 
 const router = express.Router();
@@ -70,6 +72,18 @@ router.get('/getcambioestados', verifyToken, cambioestadoController.getCambioest
 router.get('/getcambioestadosall', verifyToken, cambioestadoController.getCambioestadosAll);
 router.post('/createcambioestado', verifyToken, cambioestadoController.createCambioestado);
 
+//RUTAS LECTURA LOGS
+router.get('/logs', (req, res) => {
+    // Leer el archivo de logs y enviarlo como respuesta
+    fs.readFile('combined.log', 'utf8', (err, data) => {
+        if (err) {
+            logger.error('Error al leer el archivo de logs:', err);
+            res.status(500).send('Error al leer los logs');
+        } else {
+            res.send(data);
+        }
+    });
+})
 
 //RUTAS ESTADOS
 router.get('/getestados', verifyToken, estadoController.getEstados);

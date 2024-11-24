@@ -1,0 +1,116 @@
+2024-11-24T02:44:41.334Z error: La llave (dnipago)=(AUDACION) no está presente en la tabla «cliente».
+2024-11-24T02:44:41.515Z info: Registro exitoso!!, DNI: 07921085
+2024-11-24T02:44:41.522Z info: Registro exitoso!!, DNI: 45646940
+2024-11-24T02:44:41.551Z info: Registro exitoso!!, DNI: 46665297
+2024-11-24T02:44:41.555Z error: La llave (dnipago)=(25646587) no está presente en la tabla «cliente».
+2024-11-24T02:44:41.562Z error: La llave (dnipago)=(12345678) no está presente en la tabla «cliente».
+2024-11-24T02:45:17.947Z error: La llave (dnipago)=(48696430) no está presente en la tabla «cliente».
+2024-11-24T02:45:17.957Z error: La llave (dnipago)=(09323436) no está presente en la tabla «cliente».
+2024-11-24T02:45:18.000Z error: La llave (dnipago)=(42796159) no está presente en la tabla «cliente».
+2024-11-24T02:45:18.010Z error: La llave (dnipago)=(AUDACION) no está presente en la tabla «cliente».
+2024-11-24T02:45:18.116Z error: La llave (dnipago)=(47905534) no está presente en la tabla «cliente».
+2024-11-24T02:45:18.193Z info: Registro exitoso!!, DNI: 466652972
+2024-11-24T02:45:18.265Z error: La llave (dnipago)=(16296018) no está presente en la tabla «cliente».
+2024-11-24T02:45:18.306Z error: La llave (dnipago)=(25017140) no está presente en la tabla «cliente».
+2024-11-24T02:45:18.380Z error: La llave (dnipago)=(7921085) no está presente en la tabla «cliente».
+2024-11-24T02:45:18.398Z info: Registro exitoso!!, DNI: 45646940
+2024-11-24T02:45:18.448Z error: La llave (dnipago)=(40199553) no está presente en la tabla «cliente».
+2024-11-24T02:45:18.450Z error: La llave (dnipago)=(75672332) no está presente en la tabla «cliente».
+2024-11-24T02:45:18.457Z error: La llave (dnipago)=(20672434) no está presente en la tabla «cliente».
+2024-11-24T02:45:18.458Z error: La llave (dnipago)=(41299576) no está presente en la tabla «cliente».
+2024-11-24T02:45:18.459Z error: La llave (dnipago)=(07483953) no está presente en la tabla «cliente».
+2024-11-24T02:45:18.489Z error: La llave (dnipago)=(70919495) no está presente en la tabla «cliente».
+2024-11-24T02:45:18.503Z error: La llave (dnipago)=(47899030) no está presente en la tabla «cliente».
+2024-11-24T02:45:18.514Z error: La llave (dnipago)=(77706745) no está presente en la tabla «cliente».
+2024-11-24T02:45:18.517Z info: Registro exitoso!!, DNI: 46665297
+2024-11-24T02:45:18.518Z error: La llave (dnipago)=(41142702) no está presente en la tabla «cliente».
+2024-11-24T02:45:25.128Z error: La llave (dnipago)=(ESTO ITF) no está presente en la tabla «cliente».
+2024-11-24T02:45:25.129Z error: La llave (dnipago)=(989712 0) no está presente en la tabla «cliente».
+2024-11-24T02:45:25.130Z error: La llave (dnipago)=(06031368) no está presente en la tabla «cliente».
+2024-11-24T02:45:25.444Z error: La llave (dnipago)=(44337916) no está presente en la tabla «cliente».
+2024-11-24T02:45:25.447Z error: La llave (dnipago)=(09140130) no está presente en la tabla «cliente».
+2024-11-24T02:45:25.670Z error: La llave (dnipago)=(48503192) no está presente en la tabla «cliente».
+2024-11-24T02:45:25.738Z error: La llave (dnipago)=(74347357) no está presente en la tabla «cliente».
+2024-11-24T02:45:25.824Z error: La llave (dnipago)=(76855336) no está presente en la tabla «cliente».
+2024-11-24T02:45:25.829Z error: La llave (dnipago)=(73901976) no está presente en la tabla «cliente».
+2024-11-24T02:45:26.057Z error: La llave (dnipago)=(066845 0) no está presente en la tabla «cliente».
+2024-11-24T02:45:26.096Z error: La llave (dnipago)=(72441522) no está presente en la tabla «cliente».
+2024-11-24T02:45:26.173Z error: La llave (dnipago)=(46578181) no está presente en la tabla «cliente».
+2024-11-24T02:45:26.207Z info: Registro exitoso!!, DNI: 466652972
+2024-11-24T02:45:26.270Z info: Registro exitoso!!, DNI: 466652973
+2024-11-24T02:45:26.384Z error: La llave (dnipago)=(45388071) no está presente en la tabla «cliente».
+2024-11-24T02:45:26.435Z error: La llave (dnipago)=(720085 0) no está presente en la tabla «cliente».
+2024-11-24T02:45:26.485Z error: La llave (dnipago)=(75530539) no está presente en la tabla «cliente».
+2024-11-24T02:45:26.672Z error: La llave (dnipago)=(78719882) no está presente en la tabla «cliente».
+2024-11-24T02:45:26.729Z error: La llave (dnipago)=(76542076) no está presente en la tabla «cliente».
+2024-11-24T02:45:26.775Z error: La llave (dnipago)=(09572366) no está presente en la tabla «cliente».
+2024-11-24T02:45:26.807Z error: La llave (dnipago)=(40483492) no está presente en la tabla «cliente».
+2024-11-24T02:45:26.833Z info: Registro exitoso!!, DNI: 46665297
+2024-11-24T02:45:26.870Z error: La llave (dnipago)=(46600611) no está presente en la tabla «cliente».
+2024-11-24T02:45:26.915Z error: La llave (dnipago)=(45017228) no está presente en la tabla «cliente».
+2024-11-24T02:45:26.960Z error: La llave (dnipago)=(43688546) no está presente en la tabla «cliente».
+2024-11-24T02:45:27.061Z error: La llave (dnipago)=(41453515) no está presente en la tabla «cliente».
+2024-11-24T02:45:27.108Z error: La llave (dnipago)=(47804887) no está presente en la tabla «cliente».
+2024-11-24T02:45:27.140Z error: La llave (dnipago)=(22513850) no está presente en la tabla «cliente».
+2024-11-24T02:45:27.167Z error: La llave (dnipago)=(75426242) no está presente en la tabla «cliente».
+2024-11-24T02:45:27.176Z error: La llave (dnipago)=(74898688) no está presente en la tabla «cliente».
+2024-11-24T02:45:27.188Z error: La llave (dnipago)=(10678290) no está presente en la tabla «cliente».
+2024-11-24T02:45:27.188Z error: La llave (dnipago)=(71265658) no está presente en la tabla «cliente».
+2024-11-24T02:45:27.192Z error: La llave (dnipago)=(73970357) no está presente en la tabla «cliente».
+2024-11-24T02:45:27.208Z error: La llave (dnipago)=(10121767) no está presente en la tabla «cliente».
+2024-11-24T02:45:27.225Z error: La llave (dnipago)=(41560096) no está presente en la tabla «cliente».
+2024-11-24T02:45:27.228Z error: La llave (dnipago)=(76984366) no está presente en la tabla «cliente».
+2024-11-24T02:45:27.235Z error: La llave (dnipago)=(74827802) no está presente en la tabla «cliente».
+2024-11-24T02:45:27.238Z error: La llave (dnipago)=(42729739) no está presente en la tabla «cliente».
+2024-11-24T02:45:27.247Z info: Registro exitoso!!, DNI: 45646940
+2024-11-24T02:45:27.263Z error: La llave (dnipago)=(489664 0) no está presente en la tabla «cliente».
+2024-11-24T02:45:27.269Z info: Registro exitoso!!, DNI: 45646940
+2024-11-24T02:45:27.278Z error: La llave (dnipago)=(49062474) no está presente en la tabla «cliente».
+2024-11-24T02:45:27.289Z error: La llave (dnipago)=(7921085) no está presente en la tabla «cliente».
+2024-11-24T02:45:27.297Z error: La llave (dnipago)=(29623981) no está presente en la tabla «cliente».
+2024-11-24T02:45:27.305Z error: La llave (dnipago)=(43171583) no está presente en la tabla «cliente».
+2024-11-24T02:45:27.322Z error: La llave (dnipago)=(44033710) no está presente en la tabla «cliente».
+2024-11-24T02:45:27.333Z error: La llave (dnipago)=(08300597) no está presente en la tabla «cliente».
+2024-11-24T02:45:27.334Z error: La llave (dnipago)=(45881489) no está presente en la tabla «cliente».
+2024-11-24T02:45:27.345Z error: La llave (dnipago)=(15864528) no está presente en la tabla «cliente».
+2024-11-24T02:45:27.351Z error: La llave (dnipago)=(80562708) no está presente en la tabla «cliente».
+2024-11-24T02:45:27.359Z error: La llave (dnipago)=(030127 0) no está presente en la tabla «cliente».
+2024-11-24T02:45:27.377Z error: La llave (dnipago)=(AUDACION) no está presente en la tabla «cliente».
+2024-11-24T02:45:27.378Z error: La llave (dnipago)=(989712 0) no está presente en la tabla «cliente».
+2024-11-24T02:47:35.937Z info: Registro exitoso!!, DNI: 45646940
+2024-11-24T02:47:35.991Z error: La llave (dnipago)=(AUDACION) no está presente en la tabla «cliente».
+2024-11-24T02:47:36.084Z error: La llave (dnipago)=(7921085) no está presente en la tabla «cliente».
+2024-11-24T02:47:36.138Z info: Registro exitoso!!, DNI: 466652972
+2024-11-24T02:47:36.211Z error: La llave (dnipago)=(48696430) no está presente en la tabla «cliente».
+2024-11-24T02:47:36.287Z info: Registro exitoso!!, DNI: 46665297
+2024-11-24T02:47:36.332Z error: La llave (dnipago)=(77706745) no está presente en la tabla «cliente».
+2024-11-24T02:47:36.341Z error: La llave (dnipago)=(70919495) no está presente en la tabla «cliente».
+2024-11-24T02:47:36.421Z error: La llave (dnipago)=(41299576) no está presente en la tabla «cliente».
+2024-11-24T02:47:36.452Z error: La llave (dnipago)=(07483953) no está presente en la tabla «cliente».
+2024-11-24T02:47:36.454Z error: La llave (dnipago)=(47905534) no está presente en la tabla «cliente».
+2024-11-24T02:47:36.461Z error: La llave (dnipago)=(42796159) no está presente en la tabla «cliente».
+2024-11-24T02:47:36.494Z error: La llave (dnipago)=(40199553) no está presente en la tabla «cliente».
+2024-11-24T02:47:36.505Z error: La llave (dnipago)=(09323436) no está presente en la tabla «cliente».
+2024-11-24T02:47:36.516Z error: La llave (dnipago)=(25017140) no está presente en la tabla «cliente».
+2024-11-24T02:47:36.524Z error: La llave (dnipago)=(41142702) no está presente en la tabla «cliente».
+2024-11-24T02:47:36.532Z error: La llave (dnipago)=(47899030) no está presente en la tabla «cliente».
+2024-11-24T02:47:36.556Z error: La llave (dnipago)=(16296018) no está presente en la tabla «cliente».
+2024-11-24T02:47:36.558Z error: La llave (dnipago)=(75672332) no está presente en la tabla «cliente».
+2024-11-24T02:47:36.559Z error: La llave (dnipago)=(20672434) no está presente en la tabla «cliente».
+2024-11-24T02:48:45.374Z error: La llave (dnipago)=(41560096) no está presente en la tabla «cliente».
+2024-11-24T02:48:45.530Z error: La llave (dnipago)=(44033710) no está presente en la tabla «cliente».
+2024-11-24T02:48:45.570Z error: La llave (dnipago)=(989712 0) no está presente en la tabla «cliente».
+2024-11-24T02:48:45.598Z info: Registro exitoso!!, DNI: 46665297
+2024-11-24T02:48:45.602Z error: La llave (dnipago)=(80562708) no está presente en la tabla «cliente».
+2024-11-24T02:48:45.621Z error: La llave (dnipago)=(06031368) no está presente en la tabla «cliente».
+2024-11-24T02:48:45.645Z info: Registro exitoso!!, DNI: 45646940
+2024-11-24T02:48:45.649Z error: La llave (dnipago)=(22513850) no está presente en la tabla «cliente».
+2024-11-24T02:48:45.680Z error: La llave (dnipago)=(76984366) no está presente en la tabla «cliente».
+2024-11-24T02:48:45.705Z error: La llave (dnipago)=(73970357) no está presente en la tabla «cliente».
+2024-11-24T02:48:45.711Z error: undefined
+2024-11-24T02:48:45.713Z error: La llave (dnipago)=(71265658) no está presente en la tabla «cliente».
+2024-11-24T02:48:45.729Z error: undefined
+2024-11-24T02:48:45.731Z error: La llave (dnipago)=(47804887) no está presente en la tabla «cliente».
+2024-11-24T02:48:45.742Z error: undefined
+2024-11-24T02:48:45.748Z error: La llave (dnipago)=(76855336) no está presente en la tabla «cliente».
+2024-11-24T02:48:45.793Z error: La llave (dnipago)=(42729739) no está presente en la tabla «cliente».
