@@ -1,18 +1,24 @@
 const { Pool } = require('pg');
 const pool = require('../database/connectiondb');
 const winston = require('winston');
-const { combine, timestamp, printf } = winston.format;
+const { combine, timestamp, json } = winston.format;
 const DailyRotateFile = require('winston-daily-rotate-file');
 
-const myFormat = printf(({ level, message, timestamp
+const timezoned = () => {
+    return new Date().toLocaleString('en-US', {
+        timeZone: 'America/Lima'
+    });
+}
+
+const myFormat = json(({ level, message, timestamp
 }) => {
- return `${timestamp} ${level}: ${message}`;
+ return `{${timestamp} ${level} ${message}}`;
 });
 
 const logger = winston.createLogger({
     level: 'info',
     format: combine(
-        timestamp(),
+        timestamp({ format: timezoned }),
         myFormat
     ),
     transports: [
@@ -20,12 +26,10 @@ const logger = winston.createLogger({
             filename: 'combined-%DATE%.log',
             datePattern: 'YYYY-MM-DD',
             maxsize: 100 * 1024, // 100 KB
-            maxFiles: '7d' // Keep files for 7 days
+            maxFiles: '7d', // Keep files for 7 days
+            //format: json()
           })
-        //new winston.transports.File({ filename: 'combined.log' }),
-        // new winston.transports.Console({ 
-        //      format: myFormat,
-        //  })
+
     ]
 });
 

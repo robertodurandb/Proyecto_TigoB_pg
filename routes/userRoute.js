@@ -73,14 +73,20 @@ router.get('/getcambioestadosall', verifyToken, cambioestadoController.getCambio
 router.post('/createcambioestado', verifyToken, cambioestadoController.createCambioestado);
 
 //RUTAS LECTURA LOGS
-router.get('/logs', (req, res) => {
+router.get('/logs', verifyToken, (req, res) => {
     // Leer el archivo de logs y enviarlo como respuesta
-    fs.readFile('combined.log', 'utf8', (err, data) => {
+    const fecha = new Date();
+    let anio = fecha.getFullYear();
+    let mes = fecha.getMonth() + 1;
+    let dia = fecha.getDate();
+    let combined = 'combined-'+anio+'-'+mes+'-'+dia+'.log';
+
+    fs.readFile(combined, 'utf8', (err, data) => {
         if (err) {
             logger.error('Error al leer el archivo de logs:', err);
             res.status(500).send('Error al leer los logs');
         } else {
-            res.send(data);
+            res.json(data);
         }
     });
 })
