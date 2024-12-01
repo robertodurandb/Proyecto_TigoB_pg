@@ -1,7 +1,6 @@
 const { Pool } = require('pg');
 const pool = require('../database/connectiondb');
 const winston = require('winston');
-const { combine, timestamp, json } = winston.format;
 const DailyRotateFile = require('winston-daily-rotate-file');
 
 const timezoned = () => {
@@ -10,16 +9,13 @@ const timezoned = () => {
     });
 }
 
-const myFormat = json(({ level, message, timestamp
-}) => {
- return `{${timestamp} ${level} ${message}}`;
-});
-
 const logger = winston.createLogger({
     level: 'info',
-    format: combine(
-        timestamp({ format: timezoned }),
-        myFormat
+    format: winston.format.combine(
+        winston.format.timestamp({ format: timezoned }),
+        winston.format.printf(({ timestamp, level, message }) => {
+            return `[${timestamp}] ${level.toUpperCase()}: ${message}`;
+          })
     ),
     transports: [
         new DailyRotateFile({
@@ -27,7 +23,6 @@ const logger = winston.createLogger({
             datePattern: 'YYYY-MM-DD',
             maxsize: 100 * 1024, // 100 KB
             maxFiles: '7d', // Keep files for 7 days
-            //format: json()
           })
 
     ]
@@ -42,7 +37,7 @@ const insertPagos = async (Data) =>{
         const values = [fechapago2, dnipago, descripcion, monto, agencia, operacion, hora];
         const result = await client.query(query, values);
         client.release();
-        logger.info("Registro exitoso!!, DNI: "+result.rows[0].dnipago)
+        logger.info("Inserción Correcta (dnipago)="+result.rows[0].dnipago+" dni encontrado en la tabla cliente.")
         return result.rows[0];
     } catch (error) {
         logger.error(error.detail)

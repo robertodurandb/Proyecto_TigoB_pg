@@ -73,21 +73,35 @@ router.get('/getcambioestadosall', verifyToken, cambioestadoController.getCambio
 router.post('/createcambioestado', verifyToken, cambioestadoController.createCambioestado);
 
 //RUTAS LECTURA LOGS
-router.get('/logs', verifyToken, (req, res) => {
+router.get('/getlogs', verifyToken, (req, res) => {
     // Leer el archivo de logs y enviarlo como respuesta
     const fecha = new Date();
     let anio = fecha.getFullYear();
     let mes = fecha.getMonth() + 1;
     let dia = fecha.getDate();
-    let combined = 'combined-'+anio+'-'+mes+'-'+dia+'.log';
+    let diaf = "";
+    if(dia<10){
+        diaf = "0"+dia;
+    }else{
+        diaf = dia;
+    }
+    let combined = 'combined-'+anio+'-'+mes+'-'+diaf+'.log';
 
     fs.readFile(combined, 'utf8', (err, data) => {
         if (err) {
-            logger.error('Error al leer el archivo de logs:', err);
             res.status(500).send('Error al leer los logs');
         } else {
-            res.json(data);
+            console.log(data)
+            res.send(data)
         }
+    //     console.log(combined)
+    //     console.log(data)
+    //     const logs = JSON.parse(data)
+    //   .map(log => JSON.stringify(log)) 
+    //   // Opcional: Convertir cada objeto a string para evitar problemas con React
+    //   .join('\n');
+    // res.send(logs);
+    
     });
 })
 

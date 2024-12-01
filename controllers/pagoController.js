@@ -41,7 +41,7 @@ const insertPagos = async(req, res) => {
               pagoService.insertPagos(Data)
           }       
       })
-          res.status(201).json("Data corrercta");
+          res.status(201).json("Archivo importado con "+totalRows+" Registros, ver Logs de Errores para corroborar!!");
           console.log("el total de filas del archivo: "+totalRows)
         }else{
             console.log("Esta ingresando demasiados registros, no puede superar las 70 filas!!!")
