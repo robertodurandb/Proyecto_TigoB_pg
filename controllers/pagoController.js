@@ -41,7 +41,7 @@ const insertPagos = async(req, res) => {
               pagoService.insertPagos(Data)
           }       
       })
-          res.status(201).json("Archivo importado con "+totalRows+" Registros, ver Logs de Errores para corroborar!!");
+          res.status(201).json("Se importo el Archivo con "+totalRows+" Registros, ver Logs de Errores para validar si todos los registros fueron insertados correctamente!!");
           console.log("el total de filas del archivo: "+totalRows)
         }else{
             console.log("Esta ingresando demasiados registros, no puede superar las 70 filas!!!")
@@ -70,6 +70,19 @@ const getPagos = async(req, res) => {
 const getPagosAll = async(req, res) => {
     try {
         const pagos = await pagoService.getPagosAll();
+        res.status(201).json(pagos)
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: 'Error server'
+        }) 
+    }
+}
+const getControlPagos = async(req, res) => {
+    try {
+        const pagos = await pagoService.getControlPagos();
         res.status(201).json(pagos)
         
     } catch (error) {
@@ -123,5 +136,5 @@ const updatePago = async(req, res) => {
 }
 
 module.exports = {
-    getPagos, getPagoById, createPago, updatePago, getPagosAll, newexcelfile, insertPagos
+    getPagos, getPagoById, createPago, updatePago, getPagosAll, newexcelfile, insertPagos, getControlPagos
 }

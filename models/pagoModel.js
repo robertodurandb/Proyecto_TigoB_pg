@@ -104,7 +104,16 @@ const getPagoById = async(id) => {
     const { rows } = await pool.query(query, [id]);
     return rows[0]
 }
+const getControlPagos = async() => {
+    try {
+        const result = await pool.query("WITH PagosPorContrato AS (SELECT co.num_contrato, c.dnicliente, c.nombrecli, c.apellidocli, to_char(it.fechainstalacion, 'DD/MM/YYYY') AS incio_servicio, co.diapago, es.nombre_estado AS servicio, (current_date-it.fechainstalacion)/30 AS total_meses, pl.precioplan AS pago_mensual, pl.precioplan * ((current_date - it.fechainstalacion)/30) AS deuda_total, SUM(pg.monto) AS total_pagado, (pl.precioplan * ((current_date - it.fechainstalacion)/30)) - SUM(pg.monto) AS pago_pendiente FROM cliente c INNER JOIN contrato co ON c.dnicliente = co.cliente_dnicliente LEFT JOIN pago2 pg ON co.cliente_dnicliente = pg.dnipago INNER JOIN planes as pl ON co.planes_idplanes=pl.idplanes INNER JOIN instalacion as it on co.instalacion_idinstalacion=it.idinstalacion INNER JOIN estado as es on co.estado_servicio=es.id_estado WHERE co.estado_servicio = 1 OR co.estado_servicio = 3 GROUP BY co.num_contrato, c.dnicliente, c.nombrecli, c.apellidocli, it.fechainstalacion, pl.precioplan, es.nombre_estado) SELECT*, deuda_total - total_pagado AS pago_pendiente, CASE WHEN deuda_total - total_pagado <= 0 THEN 'Al día' ELSE 'Pendiente' END AS estado FROM PagosPorContrato");
+        return result.rows;
+    } catch (error) {
+        console.log("Error Get PagosControlPagos: "+error);
+        throw error;
+    }
+}
 
 module.exports = {
-    createPago, updatePago, getPagos, getPagoById, getPagosAll, insertPagos
+    createPago, updatePago, getPagos, getPagoById, getPagosAll, insertPagos, getControlPagos
 }

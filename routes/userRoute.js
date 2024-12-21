@@ -64,6 +64,7 @@ router.get('/getpago/:id', verifyToken, pagocontroller.getPagoById);
 router.post('/createpago', verifyToken, pagocontroller.createPago);
 router.put('/updatepago/:id', verifyToken, pagocontroller.updatePago);
 router.get('/getpagosall', verifyToken, pagocontroller.getPagosAll);
+router.get('/getcontrolpagos', verifyToken, pagocontroller.getControlPagos);
 
 router.post('/importar', verifyToken, pagocontroller.newexcelfile, pagocontroller.insertPagos);
 
@@ -94,14 +95,7 @@ router.get('/getlogs', verifyToken, (req, res) => {
             console.log(data)
             res.send(data)
         }
-    //     console.log(combined)
-    //     console.log(data)
-    //     const logs = JSON.parse(data)
-    //   .map(log => JSON.stringify(log)) 
-    //   // Opcional: Convertir cada objeto a string para evitar problemas con React
-    //   .join('\n');
-    // res.send(logs);
-    
+
     });
 })
 
