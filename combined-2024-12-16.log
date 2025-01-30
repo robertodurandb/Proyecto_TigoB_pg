@@ -1,8 +1,0 @@
-[12/16/2024, 4:42:34 AM] ERROR: La llave (dnipago)=(AUDACION) no está presente en la tabla «contrato».
-[12/16/2024, 4:42:34 AM] INFO: Inserción Correcta (dnipago)=45646940 dni encontrado en la tabla cliente.
-[12/16/2024, 4:42:34 AM] INFO: Inserción Correcta (dnipago)=07921085 dni encontrado en la tabla cliente.
-[12/16/2024, 4:42:34 AM] INFO: Inserción Correcta (dnipago)=46665297 dni encontrado en la tabla cliente.
-[12/16/2024, 4:42:34 AM] ERROR: La llave (dnipago)=(10130096) no está presente en la tabla «contrato».
-[12/16/2024, 4:42:34 AM] INFO: Inserción Correcta (dnipago)=466652973 dni encontrado en la tabla cliente.
-[12/16/2024, 4:42:34 AM] ERROR: La llave (dnipago)=(466652972) no está presente en la tabla «contrato».
-[12/16/2024, 4:42:34 AM] INFO: Inserción Correcta (dnipago)=466652974 dni encontrado en la tabla cliente.
