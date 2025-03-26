@@ -3,20 +3,20 @@ const pool = require('../database/connectiondb');
 
 const createInstalacion = async(Data) => {
     
-    const { fechainstalacion, geolocalizacion, user_create, fecha_create, observacion_instalacion, caja_instalacion} = Data;
+    const { num_contrato, ordentrabajo_idordentrabajo, planactual_idplanes, clienteactual_dnicliente, fecha_inicio_contrato, condicion_equipo, tipo_equipo, cobro_equipo, cobro_instalacion, comentario_instalacion, caja_instalacion, estado_servicio, user_create, fecha_proximo_pago, ciclo_facturacion, dia_pago} = Data;
 
     try {
         const client = await pool.connect();
-        const query = 'INSERT INTO instalacion(fechainstalacion, geolocalizacion, user_create, fecha_create, observacion_instalacion, caja_instalacion) VALUES ($1, $2, $3, $4, $5, $6) RETURNING idinstalacion';
-        const values = [fechainstalacion, geolocalizacion, user_create, fecha_create, observacion_instalacion, caja_instalacion];
+        const query = 'INSERT INTO instalacion_contrato(num_contrato, ordentrabajo_idordentrabajo, planactual_idplanes, clienteactual_dnicliente, fecha_inicio_contrato, condicion_equipo, tipo_equipo, cobro_equipo, cobro_instalacion, comentario_instalacion, caja_instalacion, estado_servicio, user_create, fecha_proximo_pago, ciclo_facturacion, dia_pago) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING num_contrato';
+        const values = [num_contrato, ordentrabajo_idordentrabajo, planactual_idplanes, clienteactual_dnicliente, fecha_inicio_contrato, condicion_equipo, tipo_equipo, cobro_equipo, cobro_instalacion, comentario_instalacion, caja_instalacion, estado_servicio, user_create, fecha_proximo_pago, ciclo_facturacion, dia_pago];
         const result = await client.query(query, values);
         client.release();
-        console.log("SOY INSTALACION_MODEL")
+        console.log("SOY instalacion_contrato MODEL")
         console.log(result.rows)
         return result.rows[0];
     
     } catch (error) {
-        console.log("Error creating Plan: "+error);
+        console.log("Error creating instalacion_contrato: "+error);
         throw error;
     }
 };
@@ -24,11 +24,11 @@ const createInstalacion = async(Data) => {
 // Función para actualizar un PLAN
 const updateInstalacion = async (id, Data) =>{
     try {
-        const idinstalacion = id.id;
+        const num_contrato = id.id;
         const client = await pool.connect();
         
-        const query = `UPDATE instalacion SET ${Object.keys(Data).map(key => `${key} = '${Data[key]}'`).join(', ')} WHERE idinstalacion = $1 RETURNING *`;
-        const values = [idinstalacion];
+        const query = `UPDATE instalacion_contrato SET ${Object.keys(Data).map(key => `${key} = '${Data[key]}'`).join(', ')} WHERE num_contrato = $1 RETURNING *`;
+        const values = [num_contrato];
         const result = await client.query(query, values);
         return result.rows[0];
     } catch (err) {
@@ -38,28 +38,50 @@ const updateInstalacion = async (id, Data) =>{
 
 const getInstalaciones = async() => {
     try {
-        const result = await pool.query("SELECT * FROM instalacion");
+        const result = await pool.query("SELECT * FROM instalacion_contrato");
         return result.rows;
     } catch (error) {
-        console.log("Error Get Instalaciones: "+error);
+        console.log("Error Get Instalacion_contratos: "+error);
         throw error;
     }
 }
 
 const getInstalacionById = async(id) => {
-    const query = 'SELECT * FROM instalacion WHERE idinstalacion = $1';
+    const query = 'SELECT * FROM instalacion_contrato WHERE num_contrato = $1';
     const { rows } = await pool.query(query, [id]);
     return rows[0]
 }
 
-// Función para actualizar una IMAGEN
+//******* TODOS LOS CLIENTES ACTIVOS Y SUSPENDIDOS ******/
+const getInstalacionesAll = async() => {
+    try {
+        const result = await pool.query("select ic.num_contrato, ot.id_ordentrabajo, ot.clienteinicial_dnicliente, ic.clienteactual_dnicliente, cl.nombrecli, cl.apellidocli, cl.provinciacli, cl.distritocli, cl.direccioncli, cl.referenciacli, cl.geolocalizacion, cl.telefonocli, ot.planinicial_idplanes, ic.planactual_idplanes, pl.nombreplan, pl.precioplan, pl.velocidadplan, to_char(ot.fecha_create, 'DD/MM/YYYY') as fecha_ot, ic.fecha_inicio_contrato, ic.user_create as tecnico_instalador, to_char(ic.fecha_create, 'DD/MM/YYYY') as fecha_instalacion, ic.comentario_instalacion, ic.caja_instalacion, ic.estado_servicio, es.nombre_estado, ic.condicion_equipo, ic.tipo_equipo, ic.cobro_equipo, ic.cobro_instalacion, ic.nombreimg_contrato, ic.ciclo_facturacion, ic.fecha_proximo_pago, ic.fecha_ultimo_pago, ic.dia_pago, ic.nombreimg_caja_antes, ic.nombreimg_potencia_antes, ic.nombreimg_caja_despues, ic.nombreimg_potencia_despues, ic.nombreimg_instalacion_interna, ic.nombreimg_potencia_interna, ic.nombreimg_casa from instalacion_contrato as ic INNER JOIN ordentrabajo as ot on ic.ordentrabajo_idordentrabajo=ot.id_ordentrabajo INNER JOIN cliente as cl on ic.clienteactual_dnicliente=cl.dnicliente INNER JOIN planes as pl on ic.planactual_idplanes=pl.idplanes INNER JOIN estado as es on ic.estado_servicio=es.id_estado WHERE es.nombre_estado='Activo' OR es.nombre_estado='Suspendido'");
+        return result.rows;
+    } catch (error) {
+        console.log("Error Get Instalaciones All: "+error);
+        throw error;
+    }
+}
+//******* TODOS LOS CLIENTES ALL ******/
+const getInstalacionesAll2 = async() => {
+    try {
+        const result = await pool.query("select ic.num_contrato, ot.id_ordentrabajo, ot.clienteinicial_dnicliente, ic.clienteactual_dnicliente, cl.nombrecli, cl.apellidocli, cl.provinciacli, cl.distritocli, cl.direccioncli, cl.referenciacli, cl.geolocalizacion, cl.telefonocli, ot.planinicial_idplanes, ic.planactual_idplanes, pl.nombreplan, pl.precioplan, pl.velocidadplan, to_char(ot.fecha_create, 'DD/MM/YYYY') as fecha_ot, ic.fecha_inicio_contrato, ic.user_create as tecnico_instalador, to_char(ic.fecha_create, 'DD/MM/YYYY') as fecha_instalacion, ic.comentario_instalacion, ic.caja_instalacion, ic.estado_servicio, es.nombre_estado, ic.condicion_equipo, ic.tipo_equipo, ic.cobro_equipo, ic.cobro_instalacion,  ic.nombreimg_contrato, ic.nombreimg_casa, ic.nombreimg_caja_antes, ic.nombreimg_potencia_antes, ic.nombreimg_caja_despues, ic.nombreimg_potencia_despues, ic.nombreimg_instalacion_interna, ic.nombreimg_potencia_interna, ic.ciclo_facturacion, ic.fecha_proximo_pago, ic.fecha_ultimo_pago, ic.dia_pago from instalacion_contrato as ic INNER JOIN ordentrabajo as ot on ic.ordentrabajo_idordentrabajo=ot.id_ordentrabajo INNER JOIN cliente as cl on ic.clienteactual_dnicliente=cl.dnicliente INNER JOIN planes as pl on ic.planactual_idplanes=pl.idplanes INNER JOIN estado as es on ic.estado_servicio=es.id_estado");
+        return result.rows;
+    } catch (error) {
+        console.log("Error Get Instalaciones All2: "+error);
+        throw error;
+    }
+}
+
+
+// Función para actualizar IMAGEN 1 CONTRATO
 const updateImagen = async (id, Data) =>{
     try {
-        const idinstalacion = id.id;
+        const num_contrato = id.id;
         const client = await pool.connect();
         
-        const query = `UPDATE instalacion SET ${Object.keys(Data).map(key => `${key} = '${Data[key]}'`).join(', ')} WHERE idinstalacion = $1 RETURNING *`;
-        const values = [idinstalacion];
+        const query = `UPDATE instalacion_contrato SET ${Object.keys(Data).map(key => `${key} = '${Data[key]}'`).join(', ')} WHERE num_contrato = $1 RETURNING *`;
+        const values = [num_contrato];
         const result = await client.query(query, values);
         return result.rows[0];
     } catch (err) {
@@ -68,5 +90,5 @@ const updateImagen = async (id, Data) =>{
 }
 
 module.exports = {
-    createInstalacion, updateInstalacion, getInstalaciones, getInstalacionById, updateImagen
+    createInstalacion, updateInstalacion, getInstalaciones, getInstalacionById, getInstalacionesAll, getInstalacionesAll2, updateImagen
 }

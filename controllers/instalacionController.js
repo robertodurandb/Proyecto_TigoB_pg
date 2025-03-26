@@ -13,16 +13,98 @@ const storage = multer.diskStorage({
   let upload = multer({ storage: storage })
   const newupload = upload.single('image')
 
-  const updateImagen = async(req, res) => {
+  const updateImagen1caja = async(req, res) => {
     try { 
         const id = req.params;
-        const nombreimg = req.file.filename;
-        const tipoimg = req.file.mimetype;
-        const Data = {nombreimg, tipoimg};
+        const nombreimg_caja_antes = req.file.filename;
+        const Data = {nombreimg_caja_antes};
         const imagenUpdate = await instalacionService.updateImagen(id,Data);
-        
         res.status(201).json(imagenUpdate);
-        console.log("se actualizo la imagen en Controller")
+        console.log("se actualizo la imagen1_caja_antes en Controller")
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+const updateImagen2potencia = async(req, res) => {
+    try { 
+        const id = req.params;
+        const nombreimg_potencia_antes = req.file.filename;
+        const Data = {nombreimg_potencia_antes};
+        const imagenUpdate = await instalacionService.updateImagen(id,Data);
+        res.status(201).json(imagenUpdate);
+        console.log("se actualizo la imagen1_potencia_antes en Controller")
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+const updateImagen3caja = async(req, res) => {
+    try { 
+        const id = req.params;
+        const nombreimg_caja_despues = req.file.filename;
+        const Data = {nombreimg_caja_despues};
+        const imagenUpdate = await instalacionService.updateImagen(id,Data);
+        res.status(201).json(imagenUpdate);
+        console.log("se actualizo la imagen3_caja_despues en Controller")
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+const updateImagen4potencia = async(req, res) => {
+    try { 
+        const id = req.params;
+        const nombreimg_potencia_despues = req.file.filename;
+        const Data = {nombreimg_potencia_despues};
+        const imagenUpdate = await instalacionService.updateImagen(id,Data);
+        res.status(201).json(imagenUpdate);
+        console.log("se actualizo la imagen4_potencia_despues en Controller")
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+  const updateImagen5instalacioninterna = async(req, res) => {
+    try { 
+        const id = req.params;
+        const nombreimg_instalacion_interna = req.file.filename;
+        const Data = {nombreimg_instalacion_interna};
+        const imagenUpdate = await instalacionService.updateImagen(id,Data);
+        res.status(201).json(imagenUpdate);
+        console.log("se actualizo la imagen5_instalacioninterna en Controller")
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+const updateImagen6potenciainterna = async(req, res) => {
+    try { 
+        const id = req.params;
+        const nombreimg_potencia_interna = req.file.filename;
+        const Data = {nombreimg_potencia_interna};
+        const imagenUpdate = await instalacionService.updateImagen(id,Data);
+        res.status(201).json(imagenUpdate);
+        console.log("se actualizo la imagen6_potencia_interna en Controller")
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+const updateImagen7contrato = async(req, res) => {
+    try { 
+        const id = req.params;
+        const nombreimg_contrato = req.file.filename;
+        const Data = {nombreimg_contrato};
+        const imagenUpdate = await instalacionService.updateImagen(id,Data);
+        res.status(201).json(imagenUpdate);
+        console.log("se actualizo la imagen7_contrato en Controller")
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+const updateImagen8casa = async(req, res) => {
+    try { 
+        const id = req.params;
+        const nombreimg_casa = req.file.filename;
+        const Data = {nombreimg_casa};
+        const imagenUpdate = await instalacionService.updateImagen(id,Data);
+        res.status(201).json(imagenUpdate);
+        console.log("se actualizo la imagen8_casa en Controller")
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
@@ -59,6 +141,32 @@ const getInstalacionById = async(req, res) => {
         }) 
     }
 }
+const getInstalacionesAll = async(req, res) => {
+    try {
+        const instalaciones = await instalacionService.getInstalacionesAll();
+        res.status(201).json(instalaciones)
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: 'Error server'
+        }) 
+    }
+}
+const getInstalacionesAll2 = async(req, res) => {
+    try {
+        const instalaciones2 = await instalacionService.getInstalacionesAll2();
+        res.status(201).json(instalaciones2)
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: 'Error server'
+        }) 
+    }
+}
 
 const createInstalacion = async(req, res) => {
     try { 
@@ -84,5 +192,5 @@ const updateInstalacion = async(req, res) => {
 }
 
 module.exports = {
-    getInstalaciones, getInstalacionById, createInstalacion, updateInstalacion, updateImagen, newupload
+    getInstalaciones, getInstalacionById, getInstalacionesAll, getInstalacionesAll2, createInstalacion, updateInstalacion, updateImagen1caja, updateImagen2potencia, updateImagen3caja, updateImagen4potencia, updateImagen5instalacioninterna,updateImagen6potenciainterna, updateImagen7contrato, updateImagen8casa, newupload
 }

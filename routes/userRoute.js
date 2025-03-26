@@ -2,7 +2,7 @@ const express = require('express')
 const userController = require('../controllers/userController');
 const loginController = require('../controllers/loginController');
 const clienteController = require('../controllers/clienteController');
-const contratoController = require('../controllers/contratoController');
+const ordentrabajoController = require('../controllers/ordentrabajoController');
 const planController = require('../controllers/planController');
 const instalacionController = require('../controllers/instalacionController');
 const pagocontroller = require('../controllers/pagoController');
@@ -23,9 +23,9 @@ router.get('/', (req, res) => {
 router.post('/dologin', loginController.doLogin);
 
 //RUTAS USUARIOS
-router.get('/getusers', verifyToken, userController.getusers);
+router.get('/getusers', userController.getusers);
 router.get('/getuser/:id', verifyToken, userController.getuserById);
-router.post('/createuser', verifyToken, userController.createUser);
+router.post('/createuser', userController.createUser);
 router.put('/updateuser/:id', verifyToken, userController.updateUser);
 router.put('/updatepassword/:id', verifyToken, userController.updatePassword);
 
@@ -35,15 +35,14 @@ router.get('/getcliente/:id', verifyToken, clienteController.getClienteById);
 router.post('/createcliente', verifyToken, clienteController.createCliente);
 router.put('/updatecliente/:id', verifyToken, clienteController.updateCliente);
 
-//RUTAS CONTRATOS
-router.get('/getcontratos', verifyToken, contratoController.getContratos);
-router.get('/getcontrato/:id', verifyToken, contratoController.getContratoById);
-router.post('/createcontrato', verifyToken, contratoController.createContrato);
-router.put('/updatecontrato/:id', verifyToken, contratoController.updateContrato);
+//RUTAS ORDENES DE TRABAJO OT
+router.get('/getordentrabajos', verifyToken, ordentrabajoController.getOrdentrabajo);
+router.get('/getordentrabajo/:id', verifyToken, ordentrabajoController.getOrdentrabajoById);
+router.post('/createordentrabajo', verifyToken, ordentrabajoController.createOrdentrabajo);
+router.put('/updateordentrabajo/:id', verifyToken, ordentrabajoController.updateOrdentrabajo);
 
-router.get('/todoinstacli', verifyToken, contratoController.getContratosConInsta);
-router.get('/pendinstacli', verifyToken, contratoController.getContratosSinInsta);
-router.get('/todocontratosactiv', verifyToken, contratoController.getContratosAllInsta);
+router.get('/orders_install', verifyToken, ordentrabajoController.getOrdenesConInsta);//todoinstacli
+router.get('/orders_pending', verifyToken, ordentrabajoController.getOrdenesSinInsta);//pendinstacli
 
 //RUTAS PLANES
 router.get('/getplanes', verifyToken, planController.getPlanes);
@@ -54,9 +53,19 @@ router.put('/updateplan/:id', verifyToken, planController.updatePlan);
 //RUTAS INSTALACIONES
 router.get('/getinstalaciones', verifyToken, instalacionController.getInstalaciones);
 router.get('/getinstalacion/:id', verifyToken, instalacionController.getInstalacionById);
+router.get('/getinstalacionesall', verifyToken, instalacionController.getInstalacionesAll);//todocontratosactiv Y SUSPENDIDOS
+router.get('/getinstalacionesall2', verifyToken, instalacionController.getInstalacionesAll2);//todocontratos activos, suspendidos y cancelados.
 router.post('/createinstalacion', verifyToken, instalacionController.createInstalacion);
 router.put('/updateinstalacion/:id', verifyToken, instalacionController.updateInstalacion);
-router.put('/updateimagen/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen);
+router.put('/updatefotocajaantes/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen1caja);
+router.put('/updatefotopotenciaantes/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen2potencia);
+router.put('/updatefotocajadespues/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen3caja);
+router.put('/updatefotopotenciadespues/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen4potencia);
+router.put('/updatefotoinstalacion/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen5instalacioninterna);
+router.put('/updatefotopotenciainterna/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen6potenciainterna);
+router.put('/updatefotocontrato/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen7contrato);
+router.put('/updatefotocasa/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen8casa);
+
 
 //RUTAS PAGOS
 router.get('/getpagos', verifyToken, pagocontroller.getPagos);

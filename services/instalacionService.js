@@ -10,6 +10,12 @@ const getInstalaciones = async()=>{
 const getInstalacionById = async(id)=>{
     return instalacionModel.getInstalacionById(id);
 }
+const getInstalacionesAll = async()=>{
+    return instalacionModel.getInstalacionesAll();
+}
+const getInstalacionesAll2 = async()=>{
+    return instalacionModel.getInstalacionesAll2();
+}
 const updateInstalacion = async(id, Data)=>{
     // Aquí puedes agregar lógica adicional antes o después de actualizar el usuario
     // Por ejemplo, validaciones, notificaciones, etc.
@@ -20,5 +26,5 @@ const updateImagen = async(id, Data)=>{
 }
 
 module.exports={
-    createInstalacion, updateInstalacion, getInstalaciones, getInstalacionById, updateImagen
+    createInstalacion, updateInstalacion, getInstalaciones, getInstalacionById, getInstalacionesAll, getInstalacionesAll2, updateImagen
 }

@@ -29,7 +29,7 @@ const insertPagos = async(req, res) => {
               const newdatofecha = new Date(partesFecha[2], partesFecha[1] - 1, partesFecha[0]).toISOString().slice(0, 10);
               const Data = {
                 // Mapear los datos de la fila a los campos de la tabla            
-                fechapago2: newdatofecha,
+                fecha_operacion: newdatofecha,
                 descripcion: row.getCell(3).value,
                 dnipago: row.getCell(4).value,
                 monto: row.getCell(5).value,

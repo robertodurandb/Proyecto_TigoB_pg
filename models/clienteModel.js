@@ -3,12 +3,12 @@ const pool = require('../database/connectiondb');
 
 const createCliente = async(clientData) => {
     
-    const { dnicliente, nombrecli, apellidocli, direccioncli, distritocli, provinciacli, fecha_nacimiento, telefonocli, fecha_create, user_create } = clientData;
+    const { dnicliente, nombrecli, apellidocli, direccioncli, distritocli, provinciacli, referenciacli, geolocalizacion, telefonocli, user_create } = clientData;
 
     try {
         const client = await pool.connect();
-        const query = 'INSERT INTO cliente(dnicliente, nombrecli, apellidocli, direccioncli, distritocli, provinciacli, fecha_nacimiento, telefonocli, fecha_create, user_create) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *';
-        const values = [dnicliente, nombrecli, apellidocli, direccioncli, distritocli, provinciacli, fecha_nacimiento, telefonocli, fecha_create, user_create];
+        const query = 'INSERT INTO cliente(dnicliente, nombrecli, apellidocli, direccioncli, distritocli, provinciacli, referenciacli, geolocalizacion, telefonocli, user_create) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *';
+        const values = [dnicliente, nombrecli, apellidocli, direccioncli, distritocli, provinciacli, referenciacli, geolocalizacion, telefonocli, user_create];
         const result = await client.query(query, values);
         client.release();
         console.log("SOY El CLIENTMODEL")
@@ -39,7 +39,7 @@ const updateCliente = async (id, clientData) =>{
 
 const getClientes = async() => {
     try {
-        const result = await pool.query("select dnicliente, nombrecli, apellidocli, direccioncli, distritocli, provinciacli, to_char(fecha_nacimiento, 'YYYY-MM-DD') as fecha_nacimiento, telefonocli, to_char(fecha_create, 'DD-MM-YYYY') as fecha_create, user_create FROM cliente");
+        const result = await pool.query("select dnicliente, nombrecli, apellidocli, direccioncli, distritocli, provinciacli, referenciacli, geolocalizacion, telefonocli, to_char(fecha_create, 'DD-MM-YYYY') as fecha_create, user_create FROM cliente");
         return result.rows;
     } catch (error) {
         console.log("Error Get Clients: "+error);
