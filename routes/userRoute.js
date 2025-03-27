@@ -23,9 +23,9 @@ router.get('/', (req, res) => {
 router.post('/dologin', loginController.doLogin);
 
 //RUTAS USUARIOS
-router.get('/getusers', userController.getusers);
+router.get('/getusers', verifyToken, userController.getusers);
 router.get('/getuser/:id', verifyToken, userController.getuserById);
-router.post('/createuser', userController.createUser);
+router.post('/createuser', verifyToken, userController.createUser);
 router.put('/updateuser/:id', verifyToken, userController.updateUser);
 router.put('/updatepassword/:id', verifyToken, userController.updatePassword);
 
