@@ -7,6 +7,7 @@ const planController = require('../controllers/planController');
 const instalacionController = require('../controllers/instalacionController');
 const pagocontroller = require('../controllers/pagoController');
 const estadoController = require('../controllers/estadoController');
+const sedeController = require('../controllers/sedeController');
 const cambioestadoController = require('../controllers/cambioestadoController');
 
 const fs = require('fs');
@@ -49,6 +50,12 @@ router.get('/getplanes', verifyToken, planController.getPlanes);
 router.get('/getplan/:id', verifyToken, planController.getPlanById);
 router.post('/createplan', verifyToken, planController.createPlan);
 router.put('/updateplan/:id', verifyToken, planController.updatePlan);
+
+//RUTAS SEDES
+router.get('/getsedes', verifyToken, sedeController.getSedes);
+router.get('/getsede/:id', verifyToken, sedeController.getSedeById);
+router.post('/createsede', verifyToken, sedeController.createSede);
+router.put('/updatesede/:id', verifyToken, sedeController.updateSede);
 
 //RUTAS INSTALACIONES
 router.get('/getinstalaciones', verifyToken, instalacionController.getInstalaciones);
