@@ -3,12 +3,12 @@ const pool = require('../database/connectiondb');
 
 const createSede = async(Data) => {
     
-    const { nombre_sede, empresa, estado} = Data;
+    const { nombre_sede, empresa, distritosede, estado} = Data;
 
     try {
         const client = await pool.connect();
-        const query = 'INSERT INTO sedes(nombre_sede, empresa, estado) VALUES ($1, $2, $3) RETURNING *';
-        const values = [nombre_sede, empresa, estado];
+        const query = 'INSERT INTO sedes(nombre_sede, empresa, distritosede, estado) VALUES ($1, $2, $3, $4) RETURNING *';
+        const values = [nombre_sede, empresa, distritosede, estado];
         const result = await client.query(query, values);
         client.release();
         console.log("SOY SEDE_MODEL")
