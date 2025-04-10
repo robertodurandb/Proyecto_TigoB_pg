@@ -3,12 +3,12 @@ const pool = require('../database/connectiondb');
 
 const createInstalacion = async(Data) => {
     
-    const { num_contrato, ordentrabajo_idordentrabajo, planactual_idplanes, clienteactual_dnicliente, fecha_inicio_contrato, condicion_equipo, tipo_equipo, cobro_equipo, cobro_instalacion, comentario_instalacion, caja_instalacion, estado_servicio, user_create, fecha_proximo_pago, ciclo_facturacion, dia_pago} = Data;
+    const { num_contrato, ordentrabajo_idordentrabajo, planactual_idplanes, clienteactual_dnicliente, fecha_inicio_contrato, condicion_equipo, tipo_equipo, cobro_equipo, cobro_instalacion, comentario_instalacion, caja_instalacion, estado_servicio, user_create, fecha_proximo_pago, ciclo_facturacion, dia_pago, latitud, longitud} = Data;
 
     try {
         const client = await pool.connect();
-        const query = 'INSERT INTO instalacion_contrato(num_contrato, ordentrabajo_idordentrabajo, planactual_idplanes, clienteactual_dnicliente, fecha_inicio_contrato, condicion_equipo, tipo_equipo, cobro_equipo, cobro_instalacion, comentario_instalacion, caja_instalacion, estado_servicio, user_create, fecha_proximo_pago, ciclo_facturacion, dia_pago) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING num_contrato';
-        const values = [num_contrato, ordentrabajo_idordentrabajo, planactual_idplanes, clienteactual_dnicliente, fecha_inicio_contrato, condicion_equipo, tipo_equipo, cobro_equipo, cobro_instalacion, comentario_instalacion, caja_instalacion, estado_servicio, user_create, fecha_proximo_pago, ciclo_facturacion, dia_pago];
+        const query = 'INSERT INTO instalacion_contrato(num_contrato, ordentrabajo_idordentrabajo, planactual_idplanes, clienteactual_dnicliente, fecha_inicio_contrato, condicion_equipo, tipo_equipo, cobro_equipo, cobro_instalacion, comentario_instalacion, caja_instalacion, estado_servicio, user_create, fecha_proximo_pago, ciclo_facturacion, dia_pago, latitud, longitud) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING *';
+        const values = [num_contrato, ordentrabajo_idordentrabajo, planactual_idplanes, clienteactual_dnicliente, fecha_inicio_contrato, condicion_equipo, tipo_equipo, cobro_equipo, cobro_instalacion, comentario_instalacion, caja_instalacion, estado_servicio, user_create, fecha_proximo_pago, ciclo_facturacion, dia_pago, latitud, longitud];
         const result = await client.query(query, values);
         client.release();
         console.log("SOY instalacion_contrato MODEL")

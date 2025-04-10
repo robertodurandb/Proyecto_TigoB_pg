@@ -171,6 +171,9 @@ const getInstalacionesAll2 = async(req, res) => {
 const createInstalacion = async(req, res) => {
     try { 
         const Data = req.body;
+        // Conversión a números
+        // const latitude = parseFloat(req.body.latitud);
+        // const longitude = parseFloat(req.body.longitud);
         const newInstalacion = await instalacionService.createInstalacion(Data);
         res.status(201).json(newInstalacion);
     } catch (error) {
