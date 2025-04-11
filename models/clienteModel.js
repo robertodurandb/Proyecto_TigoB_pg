@@ -4,28 +4,28 @@ const pool = require('../database/connectiondb');
 const createCliente = async(clientData) => {
     
     const { dnicliente, nombrecli, apellidocli, direccioncli, distritocli, provinciacli, referenciacli, geolocalizacion, telefonocli, telefonocli2, sedecli, user_create } = clientData;
-
+    const client = await pool.connect();
     try {
-        const client = await pool.connect();
         const query = 'INSERT INTO cliente(dnicliente, nombrecli, apellidocli, direccioncli, distritocli, provinciacli, referenciacli, geolocalizacion, telefonocli, telefonocli2, sedecli, user_create) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *';
         const values = [dnicliente, nombrecli, apellidocli, direccioncli, distritocli, provinciacli, referenciacli, geolocalizacion, telefonocli, telefonocli2, sedecli, user_create];
         const result = await client.query(query, values);
-        client.release();
         console.log("SOY El CLIENTMODEL")
         console.log(result.rows)
         return result.rows[0];
-        
     } catch (error) {
         console.log("Error creating Client: "+error);
         throw error;
+    } finally {
+        client.release(); // Liberar conexión SIEMPRE
     }
 };
 
 // Función para actualizar un cliente
 const updateCliente = async (id, clientData) =>{
+    const client = await pool.connect();
     try {
         const dnicliente = id.id;
-        const client = await pool.connect();
+        
         
         //await client.connect();
         const query = `UPDATE cliente SET ${Object.keys(clientData).map(key => `${key} = '${clientData[key]}'`).join(', ')} WHERE dnicliente = $1 RETURNING *`;
@@ -33,7 +33,10 @@ const updateCliente = async (id, clientData) =>{
         const result = await client.query(query, values);
         return result.rows[0];
     } catch (err) {
-        console.error(err);
+        console.error("Error en updateCliente",err);
+        throw err;
+    } finally {
+        client.release(); // Liberar conexión SIEMPRE
     }
 }
 

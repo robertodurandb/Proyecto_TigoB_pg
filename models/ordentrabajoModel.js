@@ -4,35 +4,36 @@ const pool = require('../database/connectiondb');
 const createOrdentrabajo = async(ordentrabajoData) => {
     
     const { planinicial_idplanes, clienteinicial_dnicliente, diapago, fechaprog_instalacion, horario_instalacion, indicacion_instalacion, costo_instalacion, estado_instalacion, user_create } = ordentrabajoData;
-
+    const client = await pool.connect();
     try {
-        const client = await pool.connect();
         const query = 'INSERT INTO ordentrabajo(planinicial_idplanes, clienteinicial_dnicliente, diapago, fechaprog_instalacion, horario_instalacion, indicacion_instalacion, costo_instalacion, estado_instalacion, user_create) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *';
         const values = [planinicial_idplanes, clienteinicial_dnicliente, diapago, fechaprog_instalacion, horario_instalacion, indicacion_instalacion, costo_instalacion, estado_instalacion, user_create];
         const result = await client.query(query, values);
-        client.release();
         console.log("SOY LA ORDENTRABAJO MODEL")
         console.log(result.rows)
-        return result.rows[0];
-        
+        return result.rows[0];    
     } catch (error) {
         console.log("Error creating OrdenTrabajo: "+error);
         throw error;
+    } finally {
+        client.release(); // Liberar conexión SIEMPRE
     }
 };
 
 // Función para actualizar un cliente
 const updateOrdentrabajo = async (id, contratoData) =>{
+    const client = await pool.connect();
     try {
         const id_ordentrabajo = id.id;
-        const client = await pool.connect();
-        
         const query = `UPDATE ordentrabajo SET ${Object.keys(contratoData).map(key => `${key} = '${contratoData[key]}'`).join(', ')} WHERE id_ordentrabajo = $1 RETURNING *`;
         const values = [id_ordentrabajo];
         const result = await client.query(query, values);
         return result.rows[0];
     } catch (err) {
-        console.error(err);
+        console.error("Error en updateOrdentrabajo",err);
+        throw err;
+    } finally {
+        client.release(); // Liberar conexión SIEMPRE
     }
 }
 

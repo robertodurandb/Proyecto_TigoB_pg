@@ -4,23 +4,21 @@ const pool = require('../database/connectiondb');
 const createCambioestado = async(cambioestadoData) => {
     
     const { num_contrato, detalle, estado_anterior, estado_actual, user_create } = cambioestadoData;
-
+    const client = await pool.connect();
     try {
-        const client = await pool.connect();
         const query = 'INSERT INTO cambioestado_servicio(num_contrato, detalle, estado_anterior, estado_actual, user_create) VALUES ($1, $2, $3, $4, $5) RETURNING *';
         const values = [num_contrato, detalle, estado_anterior, estado_actual, user_create];
         const result = await client.query(query, values);
-        client.release();
         console.log("SOY El cambioestadoMODEL")
         console.log(result.rows)
-        return result.rows[0];
-        
+        return result.rows[0];     
     } catch (error) {
         console.log("Error creating CambioEstado: "+error);
         throw error;
+    } finally {
+        client.release(); // Liberar conexión SIEMPRE
     }
 };
-
 
 const getCambioestados = async() => {
     try {
@@ -42,9 +40,6 @@ const getCambioestadosAll = async() => {
         throw error;
     }
 }
-
-
-
 
 module.exports = {
     createCambioestado, getCambioestados, getCambioestadosAll

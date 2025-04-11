@@ -31,51 +31,53 @@ const logger = winston.createLogger({
 const insertPagos = async (Data) =>{
 
     const { fecha_operacion, dnipago, descripcion, monto, agencia, operacion, hora } = Data;
+    const client = await pool.connect();
     try {
-        const client = await pool.connect();
         const query = 'INSERT INTO pago(fecha_operacion, dnipago, descripcion, monto, agencia, operacion, hora) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *';
         const values = [fecha_operacion, dnipago, descripcion, monto, agencia, operacion, hora];
         const result = await client.query(query, values);
-        client.release();
         logger.info("Inserción Correcta (dnipago)="+result.rows[0].dnipago+" dni encontrado en la tabla cliente.")
         return result.rows[0];
     } catch (error) {
         logger.error(error.detail)
+    } finally {
+        client.release(); // Liberar conexión SIEMPRE
     }
 }
 
 const createPago = async(Data) => {
     
     const { fecha_operacion, dnipago, descripcion, monto, agencia, operacion, hora } = Data;
-
+    const client = await pool.connect();
     try {
-        const client = await pool.connect();
         const query = 'INSERT INTO pago(fecha_operacion, dnipago, descripcion, monto, agencia, operacion, hora) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *';
         const values = [fecha_operacion, dnipago, descripcion, monto, agencia, operacion, hora];
         const result = await client.query(query, values);
-        client.release();
         console.log("SOY PAGO_MODEL")
         console.log(result.rows)
         return result.rows[0];
-    
     } catch (error) {
         console.log("Error creating Pago: "+error);
         throw error;
+    } finally {
+        client.release(); // Liberar conexión SIEMPRE
     }
 };
 
 // Función para actualizar un Pago
 const updatePago = async (id, Data) =>{
+    const client = await pool.connect();
     try {
         const id_pago = id.id;
-        const client = await pool.connect();
-        
         const query = `UPDATE pago SET ${Object.keys(Data).map(key => `${key} = '${Data[key]}'`).join(', ')} WHERE idpago = $1 RETURNING *`;
         const values = [id_pago];
         const result = await client.query(query, values);
         return result.rows[0];
     } catch (err) {
-        console.error(err);
+        console.error("Error en updatePago", err);
+        throw err;
+    } finally {
+        client.release(); // Liberar conexión SIEMPRE
     }
 }
 

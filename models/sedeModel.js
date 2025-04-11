@@ -4,35 +4,36 @@ const pool = require('../database/connectiondb');
 const createSede = async(Data) => {
     
     const { nombre_sede, empresa, distritosede, estado} = Data;
-
+    const client = await pool.connect();
     try {
-        const client = await pool.connect();
         const query = 'INSERT INTO sedes(nombre_sede, empresa, distritosede, estado) VALUES ($1, $2, $3, $4) RETURNING *';
         const values = [nombre_sede, empresa, distritosede, estado];
         const result = await client.query(query, values);
-        client.release();
         console.log("SOY SEDE_MODEL")
         console.log(result.rows)
-        return result.rows[0];
-    
+        return result.rows[0]; 
     } catch (error) {
         console.log("Error creating Sede: "+error);
         throw error;
+    } finally {
+        client.release(); // Liberar conexión SIEMPRE
     }
 };
 
 // Función para actualizar un sede
 const updateSede = async (id, Data) =>{
+    const client = await pool.connect();
     try {
         const id_sede = id.id;
-        const client = await pool.connect();
-        
         const query = `UPDATE sedes SET ${Object.keys(Data).map(key => `${key} = '${Data[key]}'`).join(', ')} WHERE id_sede = $1 RETURNING *`;
         const values = [id_sede];
         const result = await client.query(query, values);
         return result.rows[0];
     } catch (err) {
-        console.error(err);
+        console.error("Error con updateSede", err);
+        throw err;
+    } finally {
+        client.release(); // Liberar conexión SIEMPRE
     }
 }
 
