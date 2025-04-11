@@ -11,7 +11,7 @@ const pool = new Pool({
   port: process.env.DB_PORT || 5432, // Por defecto, pero puedes modificarlo si es necesario
   max: 10, // Número máximo de conexiones en el pool
   idleTimeoutMillis: 30000, // Tiempo de inactividad antes de cerrar una conexión 30seg
-  connectionTimeoutMillis: 3000 // Tiempo máximo para establecer una conexión
+  connectionTimeoutMillis: 5000 // Tiempo máximo para establecer una conexión 5 segundos
 });
 
 module.exports = pool;
