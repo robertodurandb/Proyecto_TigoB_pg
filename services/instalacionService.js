@@ -1,7 +1,7 @@
 const instalacionModel = require('../models/instalacionModel');
 
 // Lista de campos que NO deben convertirse a mayúsculas
-const EXCLUDED_FIELDS = ['geolocalizacion', 'user_create'];
+const EXCLUDED_FIELDS = ['nombre_imgcasa', 'user_create'];
 
 // Función para conversión selectiva a mayúsculas
 const convertSelectiveToUpper = (data) => {
