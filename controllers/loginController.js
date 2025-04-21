@@ -13,7 +13,6 @@ const doLogin = async(req, res) => {
             message: "Usuario y contraseña son requeridos"
         });
     }
-
     let client;
     try {
         client = await pool.connect();
@@ -68,7 +67,4 @@ const doLogin = async(req, res) => {
         if (client) client.release();
     }
 };
-
-  
-
 module.exports = { doLogin }
