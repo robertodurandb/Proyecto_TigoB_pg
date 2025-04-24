@@ -65,9 +65,21 @@ const getOrdenesSinInsta = async() => {
 }
 
 //******* TODOS LOS CLIENTES CON OT Y CON INSTALACIÓN ******/
-const getOrdenesConInsta = async() => {
+const getOrdenesConInsta = async(user) => {
     try {
         const result = await pool.query("select ic.num_contrato, ic.contrato, ic.user_create as tecnico, ic.condicion_equipo, ic.tipo_equipo, ic.cobro_equipo, ic.cobro_instalacion, ic.comentario_instalacion, ic.caja_instalacion, ic.user_mk, ic.splitter_instalacion, ic.nombreimg_contrato, ic.nombreimg_casa, ic.nombreimg_caja_antes, ic.nombreimg_potencia_antes, ic.nombreimg_caja_despues, ic.nombreimg_potencia_despues, ic.nombreimg_instalacion_interna, ic.nombreimg_potencia_interna, to_char(ic.fecha_create, 'DD/MM/YYYY') as fecha_instalacion, ot.id_ordentrabajo, ot.planinicial_idplanes, ot.clienteinicial_dnicliente, ot.diapago, ot.horario_instalacion, ot.indicacion_instalacion, ot.costo_instalacion, to_char(ot.fecha_create, 'DD/MM/YYYY') as fecha_ot,  to_char(ot.fechaprog_instalacion, 'DD/MM/YYYY') as fechaprog_instalacion, ot.indicacion_instalacion, pl.nombreplan, cl.dnicliente, cl.apellidocli, nombrecli, cl.provinciacli, cl.distritocli, cl.direccioncli, cl.telefonocli, cl.telefonocli2, cl.referenciacli, cl.geolocalizacion, ic.longitud, ic.latitud from instalacion_contrato as ic INNER JOIN ordentrabajo as ot on ic.ordentrabajo_idordentrabajo=ot.id_ordentrabajo INNER JOIN cliente as cl on ot.clienteinicial_dnicliente=cl.dnicliente INNER JOIN planes as pl on ot.planinicial_idplanes=pl.idplanes WHERE ot.estado_instalacion=2");
+    const { rows } = await pool.query(query, [user]);
+    return rows[0]
+    } catch (error) {
+        console.log("Error Get Contratos: "+error);
+        throw error;
+    }
+}
+
+//******* TODOS LOS CLIENTES CON OT Y CON INSTALACIÓN PARA USUARIO DETERMINADO ******/
+const getOrdenesConInstaForUser = async() => {
+    try {
+        const result = await pool.query("select ic.num_contrato, ic.contrato, ic.user_create as tecnico, ic.condicion_equipo, ic.tipo_equipo, ic.cobro_equipo, ic.cobro_instalacion, ic.comentario_instalacion, ic.caja_instalacion, ic.user_mk, ic.splitter_instalacion, ic.nombreimg_contrato, ic.nombreimg_casa, ic.nombreimg_caja_antes, ic.nombreimg_potencia_antes, ic.nombreimg_caja_despues, ic.nombreimg_potencia_despues, ic.nombreimg_instalacion_interna, ic.nombreimg_potencia_interna, to_char(ic.fecha_create, 'DD/MM/YYYY') as fecha_instalacion, ot.id_ordentrabajo, ot.planinicial_idplanes, ot.clienteinicial_dnicliente, ot.diapago, ot.horario_instalacion, ot.indicacion_instalacion, ot.costo_instalacion, to_char(ot.fecha_create, 'DD/MM/YYYY') as fecha_ot,  to_char(ot.fechaprog_instalacion, 'DD/MM/YYYY') as fechaprog_instalacion, ot.indicacion_instalacion, pl.nombreplan, cl.dnicliente, cl.apellidocli, nombrecli, cl.provinciacli, cl.distritocli, cl.direccioncli, cl.telefonocli, cl.telefonocli2, cl.referenciacli, cl.geolocalizacion, ic.longitud, ic.latitud from instalacion_contrato as ic INNER JOIN ordentrabajo as ot on ic.ordentrabajo_idordentrabajo=ot.id_ordentrabajo INNER JOIN cliente as cl on ot.clienteinicial_dnicliente=cl.dnicliente INNER JOIN planes as pl on ot.planinicial_idplanes=pl.idplanes WHERE ot.estado_instalacion=2 AND ic.user_create=$1");
         return result.rows;
     } catch (error) {
         console.log("Error Get Contratos: "+error);
@@ -77,5 +89,5 @@ const getOrdenesConInsta = async() => {
 
 
 module.exports = {
-    createOrdentrabajo, updateOrdentrabajo, getOrdentrabajo, getOrdentrabajoById, getOrdenesConInsta, getOrdenesSinInsta
+    createOrdentrabajo, updateOrdentrabajo, getOrdentrabajo, getOrdentrabajoById, getOrdenesConInsta, getOrdenesSinInsta, getOrdenesConInstaForUser
 }
