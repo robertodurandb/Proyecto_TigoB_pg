@@ -40,7 +40,10 @@ const getOrdenesSinInsta = async()=>{
 const getOrdenesConInsta = async()=>{
     return ordentrabajoModel.getOrdenesConInsta();
 }
+const getOrdenesConInstaForUser = async(id)=>{
+    return ordentrabajoModel.getOrdenesConInstaForUser(id);
+}
 
 module.exports={
-    createOrdentrabajo, updateOrdentrabajo, getOrdentrabajo, getOrdentrabajoById, getOrdenesSinInsta, getOrdenesConInsta
+    createOrdentrabajo, updateOrdentrabajo, getOrdentrabajo, getOrdentrabajoById, getOrdenesSinInsta, getOrdenesConInsta, getOrdenesConInstaForUser
 }

@@ -44,6 +44,7 @@ router.put('/updateordentrabajo/:id', verifyToken, ordentrabajoController.update
 
 router.get('/orders_install', verifyToken, ordentrabajoController.getOrdenesConInsta);//todoinstacli
 router.get('/orders_pending', verifyToken, ordentrabajoController.getOrdenesSinInsta);//pendinstacli
+router.get('/orders_install_user/:id', verifyToken, ordentrabajoController.getOrdenesConInstaForUser);//todoinstacliforuser
 
 //RUTAS PLANES
 router.get('/getplanes', verifyToken, planController.getPlanes);

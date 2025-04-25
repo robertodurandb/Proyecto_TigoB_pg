@@ -82,6 +82,26 @@ const getOrdenesConInsta = async(req, res) => {
     }
 }
 
+const getOrdenesConInstaForUser = async(req, res) => {
+    const {id} = req.params;
+    try {
+        const ordentrabajo = await ordentrabajoService.getOrdenesConInstaForUser(id);
+        if (!ordentrabajo) {
+            return res.status(404).json({message: 'Usuario no registra ninguna instalación'})
+        }
+        res.status(201).json(ordentrabajo)
+        console.log("si se encontro el usuario: "+id)
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: 'Error server'
+        }) 
+    }
+}
+
+
 module.exports = {
-    getOrdentrabajo, getOrdentrabajoById, createOrdentrabajo, updateOrdentrabajo, getOrdenesSinInsta, getOrdenesConInsta
+    getOrdentrabajo, getOrdentrabajoById, createOrdentrabajo, updateOrdentrabajo, getOrdenesSinInsta, getOrdenesConInsta, getOrdenesConInstaForUser
 }
