@@ -42,6 +42,15 @@ router.get('/getordentrabajo/:id', verifyToken, ordentrabajoController.getOrdent
 router.post('/createordentrabajo', verifyToken, ordentrabajoController.createOrdentrabajo);
 router.put('/updateordentrabajo/:id', verifyToken, ordentrabajoController.updateOrdentrabajo);
 
+router.put('/updatefotocajaantes/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen1caja);
+router.put('/updatefotopotenciaantes/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen2potencia);
+router.put('/updatefotocajadespues/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen3caja);
+router.put('/updatefotopotenciadespues/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen4potencia);
+router.put('/updatefotoinstalacion/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen5instalacioninterna);
+router.put('/updatefotopotenciainterna/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen6potenciainterna);
+router.put('/updatefotocontrato/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen7contrato);
+router.put('/updatefotocasa/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen8casa);
+
 router.get('/orders_install', verifyToken, ordentrabajoController.getOrdenesConInsta);//todoinstacli
 router.get('/orders_pending', verifyToken, ordentrabajoController.getOrdenesSinInsta);//pendinstacli
 router.get('/orders_install_user/:id', verifyToken, ordentrabajoController.getOrdenesConInstaForUser);//todoinstacliforuser
@@ -65,15 +74,6 @@ router.get('/getinstalacionesall', verifyToken, instalacionController.getInstala
 router.get('/getinstalacionesall2', verifyToken, instalacionController.getInstalacionesAll2);//todocontratos activos, suspendidos y cancelados.
 router.post('/createinstalacion', verifyToken, instalacionController.createInstalacion);
 router.put('/updateinstalacion/:id', verifyToken, instalacionController.updateInstalacion);
-router.put('/updatefotocajaantes/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen1caja);
-router.put('/updatefotopotenciaantes/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen2potencia);
-router.put('/updatefotocajadespues/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen3caja);
-router.put('/updatefotopotenciadespues/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen4potencia);
-router.put('/updatefotoinstalacion/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen5instalacioninterna);
-router.put('/updatefotopotenciainterna/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen6potenciainterna);
-router.put('/updatefotocontrato/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen7contrato);
-router.put('/updatefotocasa/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen8casa);
-
 
 //RUTAS PAGOS
 router.get('/getpagos', verifyToken, pagocontroller.getPagos);
