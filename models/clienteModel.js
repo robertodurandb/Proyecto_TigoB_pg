@@ -3,11 +3,11 @@ const pool = require('../database/connectiondb');
 
 const createCliente = async(clientData) => {
     
-    const { dnicliente, nombrecli, apellidocli, direccioncli, distritocli, provinciacli, referenciacli, geolocalizacion, telefonocli, telefonocli2, sedecli, user_create } = clientData;
+    const { dnicliente, nombrecli, apellidocli, direccioncli, referenciacli, geolocalizacion, telefonocli, telefonocli2, sedecli, user_create } = clientData;
     const client = await pool.connect();
     try {
-        const query = 'INSERT INTO cliente(dnicliente, nombrecli, apellidocli, direccioncli, distritocli, provinciacli, referenciacli, geolocalizacion, telefonocli, telefonocli2, sedecli, user_create) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *';
-        const values = [dnicliente, nombrecli, apellidocli, direccioncli, distritocli, provinciacli, referenciacli, geolocalizacion, telefonocli, telefonocli2, sedecli, user_create];
+        const query = 'INSERT INTO cliente(dnicliente, nombrecli, apellidocli, direccioncli, referenciacli, geolocalizacion, telefonocli, telefonocli2, sedecli, user_create) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *';
+        const values = [dnicliente, nombrecli, apellidocli, direccioncli, referenciacli, geolocalizacion, telefonocli, telefonocli2, sedecli, user_create];
         const result = await client.query(query, values);
         console.log("SOY El CLIENTMODEL")
         console.log(result.rows)
@@ -42,16 +42,7 @@ const updateCliente = async (id, clientData) =>{
 
 const getClientes = async() => {
     try {
-        const result = await pool.query("select dnicliente, nombrecli, apellidocli, direccioncli, distritocli, provinciacli, referenciacli, geolocalizacion, telefonocli, telefonocli2, sedecli, to_char(fecha_create, 'DD-MM-YYYY') as fecha_create, user_create FROM cliente");
-        return result.rows;
-    } catch (error) {
-        console.log("Error Get Clients: "+error);
-        throw error;
-    }
-}
-const getClientesconsede = async() => {
-    try {
-        const result = await pool.query("select dnicliente, nombrecli, apellidocli, direccioncli, distritocli, provinciacli, referenciacli, geolocalizacion, telefonocli, telefonocli2, sedecli, to_char(fecha_create, 'DD-MM-YYYY') as fecha_create, user_create FROM cliente");
+        const result = await pool.query("select dnicliente, nombrecli, apellidocli, direccioncli, referenciacli, geolocalizacion, telefonocli, telefonocli2, sedecli, to_char(fecha_create, 'DD-MM-YYYY') as fecha_create, user_create FROM cliente");
         return result.rows;
     } catch (error) {
         console.log("Error Get Clients: "+error);
