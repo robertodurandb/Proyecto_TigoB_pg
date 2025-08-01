@@ -33,7 +33,7 @@ const getCambioestados = async() => {
 //*************** TODOS LOS CAMBIOESTADOS **/
 const getCambioestadosAll = async() => {
     try {
-        const result = await pool.query("select ce.idcambioestado, ce.num_contrato, ce.detalle, ce.estado_anterior, es.nombre_estado as nomestado_anterior, ce.estado_actual, esa.nombre_estado as nomestado_actual, ce.user_create, to_char(ce.fecha_create, 'DD/MM/YYYY') as fecha_create, to_char(ce.fecha_create, 'HH24:MI:SS') as hora_create, dc.cliente_dnicliente, cl.apellidocli, cl.nombrecli from cambioestado_servicio as ce INNER JOIN contrato as dc on ce.num_contrato=dc.num_contrato INNER JOIN cliente as cl on cl.dnicliente=dc.cliente_dnicliente INNER JOIN estado as es on es.id_estado=ce.estado_anterior INNER JOIN estado as esa on esa.id_estado=ce.estado_actual");
+        const result = await pool.query("select ce.idcambioestado, ce.num_contrato, ce.detalle, ce.estado_anterior, es.nombre_estado as nomestado_anterior, ce.estado_actual, esa.nombre_estado as nomestado_actual, ce.user_create, to_char(ce.fecha_create, 'DD/MM/YYYY') as fecha_create, to_char(ce.fecha_create, 'HH24:MI:SS') as hora_create, ic.clienteactual_dnicliente, cl.apellidocli, cl.nombrecli from cambioestado_servicio as ce INNER JOIN instalacion_contrato as ic on ce.num_contrato=ic.num_contrato INNER JOIN cliente as cl on cl.dnicliente=ic.clienteactual_dnicliente INNER JOIN estado as es on es.id_estado=ce.estado_anterior INNER JOIN estado as esa on esa.id_estado=ce.estado_actual");
         return result.rows;
     } catch (error) {
         console.log("Error Get CambioestadosAll: "+error);

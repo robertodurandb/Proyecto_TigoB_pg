@@ -22,7 +22,7 @@ const logger = winston.createLogger({
             filename: 'combined-%DATE%.log',
             datePattern: 'YYYY-MM-DD',
             maxsize: 100 * 1024, // 100 KB
-            maxFiles: '7d', // Keep files for 7 days
+            maxFiles: '3d', // Keep files for 7 days
           })
 
     ]

@@ -42,7 +42,31 @@ const updateInstalacion = async(id, Data)=>{
 const updateImagen = async(id, Data)=>{
     return instalacionModel.updateImagen(id, Data);
 }
+const corregirDniCliente = async(nuevo_dni, dni_incorrecto)=>{
+    // return instalacionModel.corregirDniCliente(nuevo_dni, dni_incorrecto)
+    try {
+        if (!nuevo_dni || !dni_incorrecto) {
+            throw new Error('Se requieren ambos parámetros: nuevo DNI y DNI incorrecto');
+        }
+
+        if (nuevo_dni === dni_incorrecto) {
+            throw new Error('El nuevo DNI no puede ser igual al DNI incorrecto');
+        }
+
+        const resultado = await instalacionModel.corregirDniCliente(nuevo_dni, dni_incorrecto);
+        
+        return {
+            success: true,
+            message: 'DNI corregido exitosamente',
+            data: resultado
+        };
+    } catch (error) {
+        console.error('Error en ContratoService.corregirDniCliente:', error);
+        // Aquí simplemente relanzamos el error para que mantenga su mensaje original
+        throw error;
+    }
+}
 
 module.exports={
-    createInstalacion, updateInstalacion, getInstalaciones, getInstalacionById, getInstalacionesAll, getInstalacionesAll2, updateImagen
+    createInstalacion, updateInstalacion, getInstalaciones, getInstalacionById, getInstalacionesAll, getInstalacionesAll2, updateImagen, corregirDniCliente
 }

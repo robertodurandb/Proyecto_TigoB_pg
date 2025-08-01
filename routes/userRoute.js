@@ -9,6 +9,8 @@ const pagocontroller = require('../controllers/pagoController');
 const estadoController = require('../controllers/estadoController');
 const sedeController = require('../controllers/sedeController');
 const cambioestadoController = require('../controllers/cambioestadoController');
+const recojoequiposController = require('../controllers/recojoequiposController');
+const historicoController = require('../controllers/historicoController');
 
 const fs = require('fs');
 
@@ -89,6 +91,25 @@ router.post('/importar', verifyToken, pagocontroller.newexcelfile, pagocontrolle
 router.get('/getcambioestados', verifyToken, cambioestadoController.getCambioestados);
 router.get('/getcambioestadosall', verifyToken, cambioestadoController.getCambioestadosAll);
 router.post('/createcambioestado', verifyToken, cambioestadoController.createCambioestado);
+
+//RECOJO EQUIPOS
+router.post('/create_recojoequipos', verifyToken, recojoequiposController.createRecojo);
+router.get('/getrecojos_pendientes', verifyToken, recojoequiposController.getRecojosPendientes);
+router.get('/getrecojos_terminados', verifyToken, recojoequiposController.getRecojosTerminados);
+router.get('/getrecojos_cancelados', verifyToken, recojoequiposController.getRecojosCancelados);
+router.put('/update_recojoequipos/:id', verifyToken, recojoequiposController.updateRecojos);
+router.put('/update_corteposte/:id', verifyToken, recojoequiposController.newupload, recojoequiposController.updateCortePoste);
+
+//HISTORICO CAJAS Y EQUIPOS Y PLANES
+router.post('/create_historicocajas', verifyToken, historicoController.createHistoricoCajas);
+router.post('/create_historicoequipos', verifyToken, historicoController.createHistoricoEquipos);
+router.post('/create_historicoplanes', verifyToken, historicoController.createHistoricoPlanes);
+router.get('/gethistorico_cajas', verifyToken, historicoController.getHistoricoCajas);
+router.get('/gethistorico_equipos', verifyToken, historicoController.getHistoricoEquipos);
+router.get('/gethistorico_planes', verifyToken, historicoController.getHistoricoPlanes);
+
+//CORREGIR DNI CLIENTE
+router.post('/contratos/corregir-dni', verifyToken, instalacionController.corregirDniCliente);
 
 //RUTAS LECTURA LOGS
 router.get('/getlogs', verifyToken, (req, res) => {

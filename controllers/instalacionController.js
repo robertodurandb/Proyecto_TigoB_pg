@@ -194,6 +194,37 @@ const updateInstalacion = async(req, res) => {
     }
 }
 
+const corregirDniCliente = async (req, res) => {
+        try {
+            const { nuevo_dni, dni_incorrecto } = req.body;
+
+            // Validar que vengan los parámetros necesarios
+            if (!nuevo_dni || !dni_incorrecto) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Se requieren ambos parámetros: nuevo_dni y dni_incorrecto'
+                });
+            }
+
+            // Llamar al servicio
+            const resultado = await instalacionService.corregirDniCliente(nuevo_dni, dni_incorrecto);
+
+            if (!resultado.success) {
+                return res.status(400).json(resultado);
+            }
+
+            res.status(200).json(resultado);
+        } catch (error) {
+            console.error('Error en contratoController.corregirDniCliente:', error);
+            res.status(500).json({
+                success: false,
+                message: error.message || 'Error interno del servidor al corregir DNI del cliente'
+            });
+        }
+    }
+
 module.exports = {
-    getInstalaciones, getInstalacionById, getInstalacionesAll, getInstalacionesAll2, createInstalacion, updateInstalacion, updateImagen1caja, updateImagen2potencia, updateImagen3caja, updateImagen4potencia, updateImagen5instalacioninterna,updateImagen6potenciainterna, updateImagen7contrato, updateImagen8casa, newupload
+    getInstalaciones, getInstalacionById, getInstalacionesAll, getInstalacionesAll2, createInstalacion, updateInstalacion, 
+    updateImagen1caja, updateImagen2potencia, updateImagen3caja, updateImagen4potencia, updateImagen5instalacioninterna,
+    updateImagen6potenciainterna, updateImagen7contrato, updateImagen8casa, newupload, corregirDniCliente
 }

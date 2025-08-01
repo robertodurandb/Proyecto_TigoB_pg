@@ -20,6 +20,10 @@ app.get('/api/v1/clientes/:imagen', (req, res) => {
     res.sendFile(__dirname + '/uploads/' + imagen);
 });
 
+// Inicializar jobs (agrega esto después de las rutas)
+const initSuspensionJobs = require('./jobs/suspensionJob');
+initSuspensionJobs();
+
 const PORT = process.env.PORT || 3100;
 
 app.listen(PORT, () => console.log('Servidor andando en puerto: ' + PORT))

@@ -42,7 +42,7 @@ const updateCliente = async (id, clientData) =>{
 
 const getClientes = async() => {
     try {
-        const result = await pool.query("select dnicliente, nombrecli, apellidocli, direccioncli, referenciacli, geolocalizacion, telefonocli, telefonocli2, sedecli, to_char(fecha_create, 'DD-MM-YYYY') as fecha_create, user_create FROM cliente");
+        const result = await pool.query("select dnicliente, nombrecli, apellidocli, direccioncli, referenciacli, geolocalizacion, telefonocli, telefonocli2, sedecli, to_char(fecha_create, 'DD/MM/YYYY') as fecha_create, user_create, sd.nombre_sede FROM cliente AS cl INNER JOIN sedes as sd on cl.sedecli = sd.id_sede");
         return result.rows;
     } catch (error) {
         console.log("Error Get Clients: "+error);
