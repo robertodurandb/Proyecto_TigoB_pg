@@ -9,6 +9,9 @@ const createHistoricoEquipos = async(Data)=>{
 const createHistoricoPlanes = async(Data)=>{
     return historicoModel.createHistoricoPlanes(Data);
 }
+const createHistoricoDiaPago = async(Data)=>{
+    return historicoModel.createHistoricoDiaPago(Data);
+}
 const getHistoricoCajas = async()=>{
     return historicoModel.getHistoricoCajas();
 }
@@ -18,7 +21,10 @@ const getHistoricoEquipos = async()=>{
 const getHistoricoPlanes = async()=>{
     return historicoModel.getHistoricoPlanes();
 }
+const getHistoricoDiaPago = async()=>{
+    return historicoModel.getHistoricoDiaPago();
+}
 
 module.exports={
-    createHistoricoCajas, createHistoricoEquipos, createHistoricoPlanes, getHistoricoCajas, getHistoricoEquipos, getHistoricoPlanes
+    createHistoricoCajas, createHistoricoEquipos, createHistoricoPlanes, createHistoricoDiaPago, getHistoricoCajas, getHistoricoEquipos, getHistoricoPlanes, getHistoricoDiaPago
 }

@@ -58,6 +58,25 @@ const createHistoricoPlanes = async(Data) => {
     }
 };
 
+const createHistoricoDiaPago = async(Data) => {
+    
+    const { num_contrato, user_create, dia_pago_anterior, dia_pago_nuevo, detalle } = Data;
+    const client = await pool.connect();
+    try {
+        const query = 'INSERT INTO historico_dia_pago(num_contrato, user_create, dia_pago_anterior, dia_pago_nuevo, detalle) VALUES ($1, $2, $3, $4, $5) RETURNING *';
+        const values = [num_contrato, user_create, dia_pago_anterior, dia_pago_nuevo, detalle];
+        const result = await client.query(query, values);
+        console.log("SOY El historicoDiaPagoModel")
+        console.log(result.rows)
+        return result.rows[0];     
+    } catch (error) {
+        console.log("Error creating HistoricoDiaPago: "+error);
+        throw error;
+    } finally {
+        client.release(); // Liberar conexión SIEMPRE
+    }
+};
+
 //*************** TODOS LOS CAMBIOCAJAS **/
 const getHistoricoCajas = async() => {
     try {
@@ -91,6 +110,17 @@ const getHistoricoPlanes = async() => {
     }
 }
 
+//*************** TODOS LOS CAMBIOS DIAS DE PAGO **/
+const getHistoricoDiaPago = async() => {
+    try {
+        const result = await pool.query("SELECT hd.num_contrato, dc.clienteactual_dnicliente, cl.apellidocli, cl.nombrecli, hd.fecha_create, hd.user_create, hd.detalle, hd.dia_pago_anterior, hd.dia_pago_nuevo FROM historico_dia_pago as hd INNER JOIN instalacion_contrato as dc on hd.num_contrato = dc.num_contrato INNER JOIN cliente as cl on dc.clienteactual_dnicliente = cl.dnicliente");
+        return result.rows;
+    } catch (error) {
+        console.log("Error Get HistoricoDiaPago: "+error);
+        throw error;
+    }
+}
+
 module.exports = {
-    createHistoricoCajas, createHistoricoEquipos, createHistoricoPlanes, getHistoricoCajas, getHistoricoEquipos, getHistoricoPlanes
+    createHistoricoCajas, createHistoricoEquipos, createHistoricoPlanes, createHistoricoDiaPago, getHistoricoCajas, getHistoricoEquipos, getHistoricoPlanes, getHistoricoDiaPago
 }

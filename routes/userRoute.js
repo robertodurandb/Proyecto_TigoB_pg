@@ -11,6 +11,7 @@ const sedeController = require('../controllers/sedeController');
 const cambioestadoController = require('../controllers/cambioestadoController');
 const recojoequiposController = require('../controllers/recojoequiposController');
 const historicoController = require('../controllers/historicoController');
+const gestioncrepsController = require('../controllers/gestioncrepsController');
 
 const fs = require('fs');
 
@@ -104,9 +105,17 @@ router.put('/update_corteposte/:id', verifyToken, recojoequiposController.newupl
 router.post('/create_historicocajas', verifyToken, historicoController.createHistoricoCajas);
 router.post('/create_historicoequipos', verifyToken, historicoController.createHistoricoEquipos);
 router.post('/create_historicoplanes', verifyToken, historicoController.createHistoricoPlanes);
+router.post('/create_historicodiapago', verifyToken, historicoController.createHistoricoDiaPago);
 router.get('/gethistorico_cajas', verifyToken, historicoController.getHistoricoCajas);
 router.get('/gethistorico_equipos', verifyToken, historicoController.getHistoricoEquipos);
 router.get('/gethistorico_planes', verifyToken, historicoController.getHistoricoPlanes);
+router.get('/gethistorico_diapago', verifyToken, historicoController.getHistoricoDiaPago);
+
+//GESTION CREPS
+router.get('/getcreps_pendientes', verifyToken, gestioncrepsController.getCrepsPendientes);
+router.get('/getcreps_terminados', verifyToken, gestioncrepsController.getCrepsTerminados);
+router.get('/getcreps_cancelados', verifyToken, gestioncrepsController.getCrepsCancelados);
+router.put('/update_creps/:id', verifyToken, gestioncrepsController.updateCreps);
 
 //CORREGIR DNI CLIENTE
 router.post('/contratos/corregir-dni', verifyToken, instalacionController.corregirDniCliente);

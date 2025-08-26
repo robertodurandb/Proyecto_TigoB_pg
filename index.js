@@ -20,6 +20,7 @@ app.get('/api/v1/clientes/:imagen', (req, res) => {
     res.sendFile(__dirname + '/uploads/' + imagen);
 });
 
+
 // Inicializar jobs (agrega esto después de las rutas)
 const initSuspensionJobs = require('./jobs/suspensionJob');
 initSuspensionJobs();
