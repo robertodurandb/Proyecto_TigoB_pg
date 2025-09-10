@@ -27,7 +27,6 @@ const fileFilter = (req, file, cb) => {
 const updateCortePoste = async(req, res) => {
     try { 
         const id = req.params;
-
         const { 
             comentario,
             tecnico_completado_poste,
@@ -35,14 +34,19 @@ const updateCortePoste = async(req, res) => {
             estado 
         } = req.body;
 
-        const foto_evidencia = req.file.filename;
+
+        // const foto_evidencia = req.file.filename;
         const Data = {
             comentario,
             tecnico_completado_poste,
             fecha_completado_poste,
             estado: estado || 'COMPLETADO_POSTE', // Valor por defecto
-            foto_evidencia
         };
+
+        // Solo agregar la foto_evidencia si se subió un archivo
+        if (req.file) {
+            Data.foto_evidencia = req.file.filename;
+        }
         
         const recojosUpdate = await recojoequiposService.updateRecojos(id, Data);
         
