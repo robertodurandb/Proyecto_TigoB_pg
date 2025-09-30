@@ -12,10 +12,12 @@ const cambioestadoController = require('../controllers/cambioestadoController');
 const recojoequiposController = require('../controllers/recojoequiposController');
 const historicoController = require('../controllers/historicoController');
 const gestioncrepsController = require('../controllers/gestioncrepsController');
+const MikrotikController = require('../controllers/mikrotikController');
 
 const fs = require('fs');
 
 const verifyToken = require('../middlewares/jwt');
+const { requireAdmin, requireTecnico, requireEspecialista, requireVentas, requireAdminOrVentas, requireAdminOrTecnico } = require('../middlewares/roleAuth');
 
 const router = express.Router();
 
@@ -26,18 +28,33 @@ router.get('/', (req, res) => {
 //RUTA LOGIN
 router.post('/dologin', loginController.doLogin);
 
+// Ruta para probar conexión
+router.get('/test', MikrotikController.testConnection2);
+
+// Ruta para obtener recursos del sistema
+router.get('/resources', MikrotikController.getSystemResources);
+
+// Ruta de salud de la API MikroTik
+router.get('/health', (req, res) => {
+  res.json({
+    success: true,
+    message: 'API MikroTik está funcionando',
+    timestamp: new Date().toISOString()
+  });
+});
+
 //RUTAS USUARIOS
-router.get('/getusers', verifyToken, userController.getusers);
-router.get('/getuser/:id', verifyToken, userController.getuserById);
-router.post('/createuser', verifyToken, userController.createUser);
-router.put('/updateuser/:id', verifyToken, userController.updateUser);
-router.put('/updatepassword/:id', verifyToken, userController.updatePassword);
+router.get('/getusers', verifyToken, requireAdmin, userController.getusers);
+router.get('/getuser/:id', verifyToken, requireAdmin, userController.getuserById);
+router.post('/createuser', verifyToken, requireAdmin, userController.createUser);
+router.put('/updateuser/:id', verifyToken, requireAdmin, userController.updateUser);
+router.put('/updatepassword/:id', verifyToken, requireAdmin, userController.updatePassword);
 
 //RUTAS CLIENTES
-router.get('/getclientes', verifyToken, clienteController.getClientes);
-router.get('/getcliente/:id', verifyToken, clienteController.getClienteById);
-router.post('/createcliente', verifyToken, clienteController.createCliente);
-router.put('/updatecliente/:id', verifyToken, clienteController.updateCliente);
+router.get('/getclientes', verifyToken, requireAdminOrVentas, clienteController.getClientes);
+router.get('/getcliente/:id', verifyToken, requireAdminOrVentas, clienteController.getClienteById);
+router.post('/createcliente', verifyToken, requireAdminOrVentas, clienteController.createCliente);
+router.put('/updatecliente/:id', verifyToken, requireAdmin, clienteController.updateCliente);
 
 //RUTAS ORDENES DE TRABAJO OT
 router.get('/getordentrabajos', verifyToken, ordentrabajoController.getOrdentrabajo);
@@ -54,39 +71,42 @@ router.put('/updatefotopotenciainterna/:id', verifyToken, instalacionController.
 router.put('/updatefotocontrato/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen7contrato);
 router.put('/updatefotocasa/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen8casa);
 
-router.get('/orders_install', verifyToken, ordentrabajoController.getOrdenesConInsta);//todoinstacli
-router.get('/orders_pending', verifyToken, ordentrabajoController.getOrdenesSinInsta);//pendinstacli
-router.get('/orders_install_user/:id', verifyToken, ordentrabajoController.getOrdenesConInstaForUser);//todoinstacliforuser
+router.get('/orders_install', verifyToken, requireAdminOrTecnico, ordentrabajoController.getOrdenesConInsta);//todoinstacli
+router.get('/orders_pending', verifyToken, requireAdminOrVentas, ordentrabajoController.getOrdenesSinInsta);//pendinstacli
+router.get('/orders_pending_tecnico', verifyToken, requireAdminOrTecnico, ordentrabajoController.getOrdenesSinInsta);//pendinstacli
+router.get('/orders_install_user/:id', verifyToken, requireAdminOrTecnico, ordentrabajoController.getOrdenesConInstaForUser);//todoinstacliforuser
 
 //RUTAS PLANES
 router.get('/getplanes', verifyToken, planController.getPlanes);
+router.get('/getplanesmain', verifyToken, requireAdmin, planController.getPlanes);
 router.get('/getplan/:id', verifyToken, planController.getPlanById);
-router.post('/createplan', verifyToken, planController.createPlan);
-router.put('/updateplan/:id', verifyToken, planController.updatePlan);
+router.post('/createplan', verifyToken, requireAdmin, planController.createPlan);
+router.put('/updateplan/:id', verifyToken, requireAdmin, planController.updatePlan);
 
 //RUTAS SEDES
 router.get('/getsedes', verifyToken, sedeController.getSedes);
+router.get('/getsedesmain', verifyToken, requireAdmin, sedeController.getSedes);
 router.get('/getsede/:id', verifyToken, sedeController.getSedeById);
-router.post('/createsede', verifyToken, sedeController.createSede);
-router.put('/updatesede/:id', verifyToken, sedeController.updateSede);
+router.post('/createsede', verifyToken, requireAdmin, sedeController.createSede);
+router.put('/updatesede/:id', verifyToken, requireAdmin, sedeController.updateSede);
 
 //RUTAS INSTALACIONES
-router.get('/getinstalaciones', verifyToken, instalacionController.getInstalaciones);
-router.get('/getinstalacion/:id', verifyToken, instalacionController.getInstalacionById);
-router.get('/getinstalacionesall', verifyToken, instalacionController.getInstalacionesAll);//todocontratosactiv Y SUSPENDIDOS
-router.get('/getinstalacionesall2', verifyToken, instalacionController.getInstalacionesAll2);//todocontratos activos, suspendidos y cancelados.
+router.get('/getinstalaciones', verifyToken, requireAdmin, instalacionController.getInstalaciones);
+router.get('/getinstalacion/:id', verifyToken, requireAdmin, instalacionController.getInstalacionById);
+router.get('/getinstalacionesall', verifyToken, requireAdmin, instalacionController.getInstalacionesAll);//todocontratosactiv Y SUSPENDIDOS
+router.get('/getinstalacionesall2', verifyToken, requireAdmin, instalacionController.getInstalacionesAll2);//todocontratos activos, suspendidos y cancelados.
 router.post('/createinstalacion', verifyToken, instalacionController.createInstalacion);
 router.put('/updateinstalacion/:id', verifyToken, instalacionController.updateInstalacion);
 
 //RUTAS PAGOS
-router.get('/getpagos', verifyToken, pagocontroller.getPagos);
-router.get('/getpago/:id', verifyToken, pagocontroller.getPagoById);
-router.post('/createpago', verifyToken, pagocontroller.createPago);
-router.put('/updatepago/:id', verifyToken, pagocontroller.updatePago);
-router.get('/getpagosall', verifyToken, pagocontroller.getPagosAll);
-router.get('/getcontrolpagos', verifyToken, pagocontroller.getControlPagos);
+router.get('/getpagos', verifyToken, requireAdmin, pagocontroller.getPagos);
+router.get('/getpago/:id', verifyToken, requireAdmin, pagocontroller.getPagoById);
+router.post('/createpago', verifyToken, requireAdmin, pagocontroller.createPago);
+router.put('/updatepago/:id', verifyToken, requireAdmin, pagocontroller.updatePago);
+router.get('/getpagosall', verifyToken, requireAdmin, pagocontroller.getPagosAll);
+router.get('/getcontrolpagos', verifyToken, requireAdmin, pagocontroller.getControlPagos);
 
-router.post('/importar', verifyToken, pagocontroller.newexcelfile, pagocontroller.insertPagos);
+router.post('/importar', verifyToken, requireAdmin, pagocontroller.newexcelfile, pagocontroller.insertPagos);
 
 //RUTAS CAMBIOESTADOS
 router.get('/getcambioestados', verifyToken, cambioestadoController.getCambioestados);
@@ -112,10 +132,10 @@ router.get('/gethistorico_planes', verifyToken, historicoController.getHistorico
 router.get('/gethistorico_diapago', verifyToken, historicoController.getHistoricoDiaPago);
 
 //GESTION CREPS
-router.get('/getcreps_pendientes', verifyToken, gestioncrepsController.getCrepsPendientes);
-router.get('/getcreps_terminados', verifyToken, gestioncrepsController.getCrepsTerminados);
-router.get('/getcreps_cancelados', verifyToken, gestioncrepsController.getCrepsCancelados);
-router.put('/update_creps/:id', verifyToken, gestioncrepsController.updateCreps);
+router.get('/getcreps_pendientes', verifyToken, requireAdmin, gestioncrepsController.getCrepsPendientes);
+router.get('/getcreps_terminados', verifyToken, requireAdmin, gestioncrepsController.getCrepsTerminados);
+router.get('/getcreps_cancelados', verifyToken, requireAdmin, gestioncrepsController.getCrepsCancelados);
+router.put('/update_creps/:id', verifyToken, requireAdmin, gestioncrepsController.updateCreps);
 
 //CORREGIR DNI CLIENTE
 router.post('/contratos/corregir-dni', verifyToken, instalacionController.corregirDniCliente);

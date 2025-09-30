@@ -154,6 +154,7 @@ const getInstalacionesAll = async(req, res) => {
         }) 
     }
 }
+
 const getInstalacionesAll2 = async(req, res) => {
     try {
         const instalaciones2 = await instalacionService.getInstalacionesAll2();

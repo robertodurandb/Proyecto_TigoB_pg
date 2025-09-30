@@ -23,7 +23,7 @@ const doLogin = async(req, res) => {
         if (result.rows.length === 0) {
             return res.status(404).json({
                 success: false,
-                message: "Usuario no encontrado o inactivo"
+                message: "Usuario o clave erróneo"
             });
         }
 
@@ -33,7 +33,7 @@ const doLogin = async(req, res) => {
         if (!validPassword) {
             return res.status(401).json({
                 success: false,
-                message: "Credenciales inválidas"
+                message: "Usuario o clave erróneo"
             });
         }
 

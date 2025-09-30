@@ -1,7 +1,7 @@
 const gestioncrepsService = require('../services/gestioncrepsService')
 const multer = require('multer')
 
-const getCrepsPendientes = async(req, res) => {
+const getCrepsPendientes = async(req, res) => { 
     try {
         const creps_pendientes = await gestioncrepsService.getCrepsPendientes();
         res.status(201).json(creps_pendientes)
