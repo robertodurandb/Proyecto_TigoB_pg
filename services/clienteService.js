@@ -21,12 +21,17 @@ const createCliente = async(clientData)=> {
     const processedData = convertSelectiveToUpper(clientData);
     return clienteModel.createCliente(processedData);
 }
-const getClientes = async()=>{
-    return clienteModel.getClientes();
-}
 
-const getClienteById = async(id)=>{
-    return clienteModel.getClienteById(id);
+const getClientes = async(sedeFilter = null) => {
+    // Validaciones adicionales podrían ir aquí
+    if (sedeFilter && typeof sedeFilter !== 'number') {
+        throw new Error('Filtro de sede inválido');
+    }
+    return clienteModel.getClientes(sedeFilter);
+};
+
+const checkDniExistsGlobal = async(dni)=>{
+    return clienteModel.checkDniExistsGlobal(dni);
 }
 const updateCliente = async(id, clientData)=>{
     const processedData = convertSelectiveToUpper(clientData);
@@ -34,5 +39,5 @@ const updateCliente = async(id, clientData)=>{
 }
 
 module.exports={
-    createCliente, getClientes, getClienteById, updateCliente
+    createCliente, getClientes, updateCliente, checkDniExistsGlobal
 }

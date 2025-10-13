@@ -29,7 +29,7 @@ const verifyToken = (req, res, next) => {
         }
 
         // Verificación completa de las propiedades esperadas
-        if (!decoded || !decoded.username || !decoded.role) {
+        if (!decoded || !decoded.username || !decoded.role || !decoded.userId) {
             return res.status(401).json({
                 success: false,
                 message: "Token mal formado"
@@ -40,7 +40,8 @@ const verifyToken = (req, res, next) => {
         req.user = {
             username: decoded.username,
             role: decoded.role,
-            userId: decoded.userId || null // Opcional, si está disponible
+            userId: decoded.userId,
+            sedeId: decoded.sedeId || null // Opcional, si está disponible
         };
         
         next();

@@ -4,11 +4,11 @@ const bcrypt = require('bcrypt');
 
 const createUser = async(userData) => {
     const client = await pool.connect();
-    const { id_user, nombre_user, apellido_user, perfil_user, password_user, estado_user } = userData;
+    const { id_user, nombre_user, apellido_user, perfil_user, password_user, estado, sede_id } = userData;
     const hashedPassword = await bcrypt.hash(password_user, 10);
     try {
-        const query = 'INSERT INTO usuarios(id_user, nombre_user, apellido_user, perfil_user, password_user, estado_user) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id_user';
-        const values = [id_user, nombre_user, apellido_user, perfil_user, hashedPassword, estado_user];
+        const query = 'INSERT INTO usuarios(id_user, nombre_user, apellido_user, perfil_user, password_user, estado, sede_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *';
+        const values = [id_user, nombre_user, apellido_user, perfil_user, hashedPassword, estado, sede_id];
         const result = await client.query(query, values);
         console.log("SOY EL USERMODEL")
         console.log(result.rows)
@@ -59,7 +59,12 @@ const updateUser = async (id, userData) =>{
 
 const getUsers = async() => {
     try {
-        const result = await pool.query("SELECT * FROM usuarios");
+        const result = await pool.query(`
+            SELECT u.*, s.nombre_sede as sede_nombre 
+            FROM usuarios u
+            LEFT JOIN sedes s ON u.sede_id = s.id_sede 
+            WHERE 1=1
+            `);
         return result.rows;
     } catch (error) {
         console.log("Error Get Users: "+error);

@@ -2,15 +2,13 @@ const ordentrabajoService = require('../services/ordentrabajoService')
 
 const getOrdentrabajo = async(req, res) => {
     try {
-        const ordentrabajo = await ordentrabajoService.getOrdentrabajo();
+        const sedeFilter = req.sedeFilter; //Del middleware de sede
+        const ordentrabajo = await ordentrabajoService.getOrdentrabajo(sedeFilter);
         res.status(201).json(ordentrabajo)
+        console.log('si se encontro los clientes de la sede '+sedeFilter)
         
     } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            ok: false,
-            msg: 'Error server'
-        }) 
+        res.status(400).json({ error: error.message });
     }
 }
 const getOrdentrabajoById = async(req, res) => {
@@ -22,7 +20,7 @@ const getOrdentrabajoById = async(req, res) => {
         }
         res.status(201).json(ordentrabajo)
         console.log("si se encontro el ordentrabajo: "+id)
-        
+        console.log(ordentrabajo)
     } catch (error) {
         console.log(error)
         res.status(500).json({
@@ -57,28 +55,23 @@ const updateOrdentrabajo = async(req, res) => {
 
 const getOrdenesSinInsta = async(req, res) => {
     try {
-        const contratos = await ordentrabajoService.getOrdenesSinInsta();
+        const sedeFilter = req.sedeFilter; // Del middleware de sede
+        const contratos = await ordentrabajoService.getOrdenesSinInsta(sedeFilter);
         res.status(201).json(contratos)
-        
+        console.log('si se encontro las ordenes sin instalación de la sede '+sedeFilter)
     } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            ok: false,
-            msg: 'Error server'
-        }) 
+         res.status(400).json({ error: error.message });
     }
 }
 const getOrdenesConInsta = async(req, res) => {
     try {
-        const contratos = await ordentrabajoService.getOrdenesConInsta();
+        const sedeFilter = req.sedeFilter; // Del middleware de sede
+        const contratos = await ordentrabajoService.getOrdenesConInsta(sedeFilter);
         res.status(201).json(contratos)
+        console.log('si se encontro las ordenes con instalación de la sede '+sedeFilter)
         
     } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            ok: false,
-            msg: 'Error server'
-        }) 
+         res.status(400).json({ error: error.message });
     }
 }
 
@@ -91,7 +84,7 @@ const getOrdenesConInstaForUser = async(req, res) => {
         }
         res.status(201).json(ordentrabajo)
         console.log("si se encontro el usuario: "+id)
-        
+        console.log(ordentrabajo)
     } catch (error) {
         console.log(error)
         res.status(500).json({

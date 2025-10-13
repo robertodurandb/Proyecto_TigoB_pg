@@ -2,35 +2,43 @@ const clienteService = require('../services/clienteService')
 
 const getClientes = async(req, res) => {
     try {
-        const clientes = await clienteService.getClientes();
+        const sedeFilter = req.sedeFilter; // Del middleware de sede
+        const clientes = await clienteService.getClientes(sedeFilter);
         res.status(201).json(clientes)
+        console.log('si se encontro los clientes de la sede '+sedeFilter)
         
     } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            ok: false,
-            msg: 'Error server'
-        }) 
+        res.status(400).json({ error: error.message });
     }
 }
-const getClienteById = async(req, res) => {
-    const {id} = req.params;
+
+const checkDniGlobal = async (req, res) => {
     try {
-        const cliente = await clienteService.getClienteById(id);
-        if (!cliente) {
-            return res.status(404).json({message: 'Cliente no encontrado'})
+        const { dni } = req.params;
+        
+        if (!dni || dni.length < 8) {
+            return res.status(400).json({ 
+                success: false,
+                message: "DNI debe tener al menos 8 dígitos" 
+            });
         }
-        res.status(201).json(cliente)
-        console.log("si se encontro el cliente: "+id)
+
+        const cliente = await clienteService.checkDniExistsGlobal(dni);
+        
+        res.json({ 
+            success: true,
+            exists: !!cliente,
+            cliente: cliente
+        });
         
     } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            ok: false,
-            msg: 'Error server'
-        }) 
+        console.error("Error validando DNI global:", error);
+        res.status(500).json({ 
+            success: false,
+            message: "Error interno del servidor al validar DNI" 
+        });
     }
-}
+};
 
 const createCliente = async(req, res) => {
     try { 
@@ -56,5 +64,5 @@ const updateCliente = async(req, res) => {
 }
 
 module.exports = {
-    getClientes, getClienteById, createCliente, updateCliente
+    getClientes, createCliente, updateCliente, checkDniGlobal
 }

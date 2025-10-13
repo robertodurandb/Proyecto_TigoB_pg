@@ -16,8 +16,10 @@ const MikrotikController = require('../controllers/mikrotikController');
 
 const fs = require('fs');
 
+//MIDDLEWARES
 const verifyToken = require('../middlewares/jwt');
 const { requireAdmin, requireTecnico, requireEspecialista, requireVentas, requireAdminOrVentas, requireAdminOrTecnico } = require('../middlewares/roleAuth');
+const { authorizeSede } = require('../middlewares/sedeAuth');
 
 const router = express.Router();
 
@@ -51,9 +53,9 @@ router.put('/updateuser/:id', verifyToken, requireAdmin, userController.updateUs
 router.put('/updatepassword/:id', verifyToken, requireAdmin, userController.updatePassword);
 
 //RUTAS CLIENTES
-router.get('/getclientes', verifyToken, requireAdminOrVentas, clienteController.getClientes);
-router.get('/getcliente/:id', verifyToken, requireAdminOrVentas, clienteController.getClienteById);
-router.post('/createcliente', verifyToken, requireAdminOrVentas, clienteController.createCliente);
+router.get('/getclientes', verifyToken, requireAdminOrVentas, authorizeSede(), clienteController.getClientes);
+router.get('/check-dni-global/:dni', verifyToken, requireAdminOrVentas, clienteController.checkDniGlobal);
+router.post('/createcliente', verifyToken, requireAdminOrVentas, authorizeSede(), clienteController.createCliente);
 router.put('/updatecliente/:id', verifyToken, requireAdmin, clienteController.updateCliente);
 
 //RUTAS ORDENES DE TRABAJO OT
@@ -71,9 +73,9 @@ router.put('/updatefotopotenciainterna/:id', verifyToken, instalacionController.
 router.put('/updatefotocontrato/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen7contrato);
 router.put('/updatefotocasa/:id', verifyToken, instalacionController.newupload, instalacionController.updateImagen8casa);
 
-router.get('/orders_install', verifyToken, requireAdminOrTecnico, ordentrabajoController.getOrdenesConInsta);//todoinstacli
-router.get('/orders_pending', verifyToken, requireAdminOrVentas, ordentrabajoController.getOrdenesSinInsta);//pendinstacli
-router.get('/orders_pending_tecnico', verifyToken, requireAdminOrTecnico, ordentrabajoController.getOrdenesSinInsta);//pendinstacli
+router.get('/orders_install', verifyToken, requireAdmin, authorizeSede(), ordentrabajoController.getOrdenesConInsta);//todoinstacli
+router.get('/orders_pending', verifyToken, requireAdminOrVentas, authorizeSede(), ordentrabajoController.getOrdenesSinInsta);//pendinstacli
+router.get('/orders_pending_tecnico', verifyToken, requireAdminOrTecnico, authorizeSede(), ordentrabajoController.getOrdenesSinInsta);//pendinstacli
 router.get('/orders_install_user/:id', verifyToken, requireAdminOrTecnico, ordentrabajoController.getOrdenesConInstaForUser);//todoinstacliforuser
 
 //RUTAS PLANES
@@ -84,7 +86,7 @@ router.post('/createplan', verifyToken, requireAdmin, planController.createPlan)
 router.put('/updateplan/:id', verifyToken, requireAdmin, planController.updatePlan);
 
 //RUTAS SEDES
-router.get('/getsedes', verifyToken, sedeController.getSedes);
+router.get('/getsedes', verifyToken, requireAdmin, sedeController.getSedes);
 router.get('/getsedesmain', verifyToken, requireAdmin, sedeController.getSedes);
 router.get('/getsede/:id', verifyToken, sedeController.getSedeById);
 router.post('/createsede', verifyToken, requireAdmin, sedeController.createSede);
@@ -114,10 +116,12 @@ router.get('/getcambioestadosall', verifyToken, cambioestadoController.getCambio
 router.post('/createcambioestado', verifyToken, cambioestadoController.createCambioestado);
 
 //RECOJO EQUIPOS
-router.post('/create_recojoequipos', verifyToken, recojoequiposController.createRecojo);
-router.get('/getrecojos_pendientes', verifyToken, recojoequiposController.getRecojosPendientes);
-router.get('/getrecojos_terminados', verifyToken, recojoequiposController.getRecojosTerminados);
-router.get('/getrecojos_cancelados', verifyToken, recojoequiposController.getRecojosCancelados);
+router.post('/create_recojoequipos', verifyToken, requireAdminOrTecnico, recojoequiposController.createRecojo);
+router.get('/getrecojos_pendientes', verifyToken, requireAdminOrTecnico, authorizeSede(), recojoequiposController.getRecojosPendientes);
+router.get('/getrecojos_terminados', verifyToken, requireAdmin, authorizeSede(), recojoequiposController.getRecojosTerminados);
+router.get('/getrecojos_terminados_user/:id', verifyToken, requireAdminOrTecnico, recojoequiposController.getRecojosTerminadosForUser);
+router.get('/getrecojos_cancelados', verifyToken, requireAdmin, authorizeSede(), recojoequiposController.getRecojosCancelados);
+router.get('/getrecojos_cancelados_user/:id', verifyToken, requireAdminOrTecnico, recojoequiposController.getRecojosCanceladosForUser);
 router.put('/update_recojoequipos/:id', verifyToken, recojoequiposController.updateRecojos);
 router.put('/update_corteposte/:id', verifyToken, recojoequiposController.newupload, recojoequiposController.updateCortePoste);
 

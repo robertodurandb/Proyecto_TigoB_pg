@@ -13,16 +13,30 @@ const verificarSuspensiones = async () => {
     }
 };
 
-const getRecojosPendientes = async()=>{
-    return recojoequiposModel.getRecojosPendientes();
+const getRecojosPendientes = async(sedeFilter = null)=>{
+    if (sedeFilter && typeof sedeFilter !== 'number') {
+        throw new Error('Filtro de sede inválido');
+    }
+    return recojoequiposModel.getRecojosPendientes(sedeFilter);
 }
 
-const getRecojosTerminados = async()=>{
-    return recojoequiposModel.getRecojosTerminados();
+const getRecojosTerminados = async(sedeFilter = null)=>{
+    if (sedeFilter && typeof sedeFilter !== 'number') {
+        throw new Error('Filtro de sede inválido');
+    }
+    return recojoequiposModel.getRecojosTerminados(sedeFilter);
+}
+
+const getRecojosTerminadosForUser = async(id)=>{
+    return recojoequiposModel.getRecojosTerminadosForUser(id);
 }
 
 const getRecojosCancelados = async()=>{
     return recojoequiposModel.getRecojosCancelados();
+}
+
+const getRecojosCanceladosForUser = async(id)=>{
+    return recojoequiposModel.getRecojosCanceladosForUser(id);
 }
 
 const updateRecojos = async(id, Data)=>{
@@ -30,5 +44,5 @@ const updateRecojos = async(id, Data)=>{
 }
 
 module.exports = {
-    verificarSuspensiones, createRecojo, getRecojosPendientes, getRecojosTerminados, updateRecojos, getRecojosCancelados
+    verificarSuspensiones, createRecojo, getRecojosPendientes, getRecojosTerminados, updateRecojos, getRecojosCancelados, getRecojosTerminadosForUser, getRecojosCanceladosForUser
 };

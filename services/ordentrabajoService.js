@@ -22,8 +22,11 @@ const createOrdentrabajo = async(ordentrabajoData)=> {
     const processedData = convertSelectiveToUpper(ordentrabajoData);
     return ordentrabajoModel.createOrdentrabajo(processedData);
 }
-const getOrdentrabajo = async()=>{
-    return ordentrabajoModel.getOrdentrabajo();
+const getOrdentrabajo = async(sedeFilter = null)=>{
+    if (sedeFilter && typeof sedeFilter !== 'number') {
+        throw new Error('Filtro de sede inválido');
+    }
+    return ordentrabajoModel.getOrdentrabajo(sedeFilter);
 }
 
 const getOrdentrabajoById = async(id)=>{
@@ -34,11 +37,17 @@ const updateOrdentrabajo = async(id, ordentrabajoData)=>{
     return ordentrabajoModel.updateOrdentrabajo(id, processedData);
 }
 
-const getOrdenesSinInsta = async()=>{
-    return ordentrabajoModel.getOrdenesSinInsta();
+const getOrdenesSinInsta = async(sedeFilter = null)=>{
+    if (sedeFilter && typeof sedeFilter !== 'number') {
+        throw new Error('Filtro de sede inválido');
+    }
+    return ordentrabajoModel.getOrdenesSinInsta(sedeFilter);
 }
-const getOrdenesConInsta = async()=>{
-    return ordentrabajoModel.getOrdenesConInsta();
+const getOrdenesConInsta = async(sedeFilter = null)=>{
+    if (sedeFilter && typeof sedeFilter !== 'number') {
+        throw new Error('Filtro de sede inválido');
+    }
+    return ordentrabajoModel.getOrdenesConInsta(sedeFilter);
 }
 const getOrdenesConInstaForUser = async(id)=>{
     return ordentrabajoModel.getOrdenesConInstaForUser(id);

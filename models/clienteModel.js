@@ -40,22 +40,61 @@ const updateCliente = async (id, clientData) =>{
     }
 }
 
-const getClientes = async() => {
+// NUEVOS MÉTODOS CON FILTRO DE SEDE
+const getClientes = async (sedeFilter = null) => {
+    const client = await pool.connect();
     try {
-        const result = await pool.query("select dnicliente, nombrecli, apellidocli, direccioncli, referenciacli, geolocalizacion, telefonocli, telefonocli2, sedecli, to_char(fecha_create, 'DD/MM/YYYY') as fecha_create, user_create, sd.nombre_sede FROM cliente AS cl INNER JOIN sedes as sd on cl.sedecli = sd.id_sede");
+        let query = `
+            SELECT c.*, s.nombre_sede as sede_nombre 
+            FROM cliente c 
+            LEFT JOIN sedes s ON c.sedecli = s.id_sede 
+            WHERE 1=1
+        `;
+        const values = [];
+        let paramCount = 0;
+
+        if (sedeFilter) {
+            paramCount++;
+            query += ` AND c.sedecli = $${paramCount}`;
+            values.push(sedeFilter);
+        }
+
+        query += ' ORDER BY c.fecha_create DESC';
+
+        const result = await client.query(query, values);
         return result.rows;
     } catch (error) {
-        console.log("Error Get Clients: "+error);
+        console.log("Error getting clients: " + error);
         throw error;
+    } finally {
+        client.release();
     }
-}
+};
 
-const getClienteById = async(id) => {
-    const query = 'SELECT * FROM cliente WHERE dnicliente = $1';
-    const { rows } = await pool.query(query, [id]);
-    return rows[0]
-}
+const checkDniExistsGlobal = async (dni) => {
+    const client = await pool.connect();
+    try {
+        const query = `
+            SELECT 
+                dnicliente, 
+                nombrecli, 
+                apellidocli,
+                fecha_create
+            FROM cliente 
+            WHERE dnicliente = $1
+            LIMIT 1
+        `;  
+        const result = await client.query(query, [dni]);
+        return result.rows[0] || null;
+        
+    } catch (error) {
+        console.error("Error in checkDniExistsGlobal:", error);
+        throw error;
+    } finally {
+        client.release();
+    }
+};
 
 module.exports = {
-    createCliente, updateCliente, getClienteById, getClientes
+    createCliente, updateCliente, getClientes, checkDniExistsGlobal
 }

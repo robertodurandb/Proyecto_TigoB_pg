@@ -69,29 +69,37 @@ const createRecojo = async(req, res) => {
 
 const getRecojosPendientes = async(req, res) => {
     try {
-        const recojos_pendientes = await recojoequiposService.getRecojosPendientes();
+        const sedeFilter = req.sedeFilter; // Del middleware de sede
+        const recojos_pendientes = await recojoequiposService.getRecojosPendientes(sedeFilter);
         res.status(201).json(recojos_pendientes)
-        
+        console.log('si se encontro los Recojos pendientes de la sede '+sedeFilter)
     } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            ok: false,
-            msg: 'Error server'
-        }) 
+         res.status(400).json({ error: error.message });
     }
 }
 
 const getRecojosTerminados = async(req, res) => {
     try {
-        const recojos_terminados = await recojoequiposService.getRecojosTerminados();
+        const sedeFilter = req.sedeFilter; // Del middleware de sede
+        const recojos_terminados = await recojoequiposService.getRecojosTerminados(sedeFilter);
         res.status(201).json(recojos_terminados)
-        
+        console.log('si se encontro los Recojos completados de la sede '+sedeFilter)
     } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            ok: false,
-            msg: 'Error server'
-        }) 
+         res.status(400).json({ error: error.message });
+    }
+}
+
+const getRecojosTerminadosForUser = async(req, res) => {
+    const {id} = req.params;
+    try {
+        const recojos_terminados = await recojoequiposService.getRecojosTerminadosForUser(id);
+        if (!recojos_terminados) {
+            return res.status(404).json({message: 'No se encontraron recojos para el usuario'})
+        }
+        res.status(201).json(recojos_terminados)
+        console.log("si se encontraron los recojos para el usuario: "+id)
+    } catch (error) {
+         res.status(400).json({ error: error.message });
     }
 }
 
@@ -101,11 +109,22 @@ const getRecojosCancelados = async(req, res) => {
         res.status(201).json(recojos_cancelados)
         
     } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            ok: false,
-            msg: 'Error server'
-        }) 
+         res.status(400).json({ error: error.message });
+    }
+}
+
+const getRecojosCanceladosForUser = async(req, res) => {
+    const {id} = req.params;
+    try {
+        const cancelados = await recojoequiposService.getRecojosCanceladosForUser(id);
+        if (!cancelados) {
+            return res.status(404).json({message: 'No se encontraron recojos para el usuario'})
+        }
+        res.status(201).json(cancelados)
+        console.log("si se encontraron los recojos cancelados para el usuario: "+id)
+        console.log(cancelados)
+    } catch (error) {
+         res.status(400).json({ error: error.message });
     }
 }
 
@@ -123,5 +142,6 @@ const updateRecojos = async(req, res) => {
 }
 
 module.exports = {
-    createRecojo, getRecojosPendientes, getRecojosTerminados, updateRecojos, getRecojosCancelados, updateCortePoste, newupload
+    createRecojo, getRecojosPendientes, getRecojosTerminados, getRecojosTerminadosForUser, updateRecojos, getRecojosCancelados, 
+    getRecojosCanceladosForUser, updateCortePoste, newupload
 }

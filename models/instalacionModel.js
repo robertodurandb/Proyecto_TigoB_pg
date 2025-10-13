@@ -3,11 +3,11 @@ const pool = require('../database/connectiondb');
 
 const createInstalacion = async(Data) => {
     
-    const { contrato, ordentrabajo_idordentrabajo, planactual_idplanes, clienteactual_dnicliente, fecha_inicio_contrato, condicion_equipo, tipo_equipo, cobro_equipo, cobro_instalacion, comentario_instalacion, caja_instalacion, splitter_instalacion, user_mk, estado_servicio, user_create, fecha_proximo_pago, ciclo_facturacion, dia_pago, latitud, longitud} = Data;
+    const { contrato, ordentrabajo_idordentrabajo, planactual_idplanes, clienteactual_dnicliente, fecha_inicio_contrato, condicion_equipo, tipo_equipo, cobro_equipo, cobro_instalacion, comentario_instalacion, caja_instalacion, splitter_instalacion, user_mk, sede_id, estado_servicio, user_create, fecha_proximo_pago, ciclo_facturacion, dia_pago, latitud, longitud} = Data;
     const client = await pool.connect();
     try {
-        const query = 'INSERT INTO instalacion_contrato(contrato, ordentrabajo_idordentrabajo, planactual_idplanes, clienteactual_dnicliente, fecha_inicio_contrato, condicion_equipo, tipo_equipo, cobro_equipo, cobro_instalacion, comentario_instalacion, caja_instalacion, splitter_instalacion, user_mk, estado_servicio, user_create, fecha_proximo_pago, ciclo_facturacion, dia_pago, latitud, longitud) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20) RETURNING *';
-        const values = [contrato, ordentrabajo_idordentrabajo, planactual_idplanes, clienteactual_dnicliente, fecha_inicio_contrato, condicion_equipo, tipo_equipo, cobro_equipo, cobro_instalacion, comentario_instalacion, caja_instalacion, splitter_instalacion, user_mk, estado_servicio, user_create, fecha_proximo_pago, ciclo_facturacion, dia_pago, latitud, longitud];
+        const query = 'INSERT INTO instalacion_contrato(contrato, ordentrabajo_idordentrabajo, planactual_idplanes, clienteactual_dnicliente, fecha_inicio_contrato, condicion_equipo, tipo_equipo, cobro_equipo, cobro_instalacion, comentario_instalacion, caja_instalacion, splitter_instalacion, user_mk, sede_id, estado_servicio, user_create, fecha_proximo_pago, ciclo_facturacion, dia_pago, latitud, longitud) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21) RETURNING *';
+        const values = [contrato, ordentrabajo_idordentrabajo, planactual_idplanes, clienteactual_dnicliente, fecha_inicio_contrato, condicion_equipo, tipo_equipo, cobro_equipo, cobro_instalacion, comentario_instalacion, caja_instalacion, splitter_instalacion, user_mk, sede_id, estado_servicio, user_create, fecha_proximo_pago, ciclo_facturacion, dia_pago, latitud, longitud];
         const result = await client.query(query, values);
         console.log("SOY instalacion_contrato MODEL")
         console.log(result.rows)
