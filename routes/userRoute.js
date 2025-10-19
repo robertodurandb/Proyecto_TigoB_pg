@@ -121,7 +121,7 @@ router.get('/getrecojos_pendientes', verifyToken, requireAdminOrTecnico, authori
 router.get('/getrecojos_terminados', verifyToken, requireAdmin, authorizeSede(), recojoequiposController.getRecojosTerminados);
 router.get('/getrecojos_terminados_user/:id', verifyToken, requireAdminOrTecnico, recojoequiposController.getRecojosTerminadosForUser);
 router.get('/getrecojos_cancelados', verifyToken, requireAdmin, authorizeSede(), recojoequiposController.getRecojosCancelados);
-router.get('/getrecojos_cancelados_user/:id', verifyToken, requireAdminOrTecnico, recojoequiposController.getRecojosCanceladosForUser);
+// router.get('/getrecojos_cancelados_user/:id', verifyToken, requireAdminOrTecnico, recojoequiposController.getRecojosCanceladosForUser);
 router.put('/update_recojoequipos/:id', verifyToken, recojoequiposController.updateRecojos);
 router.put('/update_corteposte/:id', verifyToken, recojoequiposController.newupload, recojoequiposController.updateCortePoste);
 
