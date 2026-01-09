@@ -15,6 +15,8 @@ const gestioncrepsController = require('../controllers/gestioncrepsController');
 const MikrotikController = require('../controllers/mikrotikController');
 
 const fs = require('fs');
+const path = require('path');
+const archiver = require('archiver');
 
 //MIDDLEWARES
 const verifyToken = require('../middlewares/jwt');
@@ -172,5 +174,6 @@ router.get('/getlogs', verifyToken, (req, res) => {
 
 //RUTAS ESTADOS
 router.get('/getestados', verifyToken, estadoController.getEstados);
+
 
 module.exports = router;
