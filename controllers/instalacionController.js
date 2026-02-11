@@ -1,16 +1,45 @@
-const instalacionService = require('../services/instalacionService')
-const multer = require('multer')
+const instalacionService = require('../services/instalacionService');
+const multer = require('multer');
+const { uploadsPath } = require('../config/uploads');
+const path = require('path');
+const fs = require('fs');
 
-// Configuración de Multer
+// Crear directorio de uploads si no existe
+if (!fs.existsSync(uploadsPath)) {
+  fs.mkdirSync(uploadsPath, { recursive: true });
+}
+
+// Configuración de Multer usando la ruta dinámica
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, 'uploads/'); // Directorio donde se guardarán las imágenes
-    },
-    filename: (req, file, cb) => {
-      cb(null, Date.now() + '-' + file.originalname) // Nombre único para el archivo
+  destination: (req, file, cb) => {
+    cb(null, uploadsPath); // Usar la ruta dinámica
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const extension = path.extname(file.originalname);
+    cb(null, file.fieldname + '-' + uniqueSuffix + extension);
+  }
+});
+
+const upload = multer({ 
+  storage: storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024 // Límite de 5MB
+  },
+  fileFilter: (req, file, cb) => {
+    // Aceptar solo imágenes
+    const allowedTypes = /jpeg|jpg|png|gif/;
+    const mimeType = allowedTypes.test(file.mimetype);
+    const extName = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+    
+    if (mimeType && extName) {
+      return cb(null, true);
     }
-  })
-  let upload = multer({ storage: storage })
+    cb(new Error('Solo se permiten archivos de imagen (jpeg, jpg, png, gif)'));
+  }
+});
+
+    // Middleware para subir una imagen
   const newupload = upload.single('image')
 
   const updateImagen1caja = async(req, res) => {
@@ -25,6 +54,7 @@ const storage = multer.diskStorage({
         res.status(400).json({ error: error.message });
     }
 }
+
 const updateImagen2potencia = async(req, res) => {
     try { 
         const id = req.params;
@@ -227,5 +257,5 @@ const corregirDniCliente = async (req, res) => {
 module.exports = {
     getInstalaciones, getInstalacionById, getInstalacionesAll, getInstalacionesAll2, createInstalacion, updateInstalacion, 
     updateImagen1caja, updateImagen2potencia, updateImagen3caja, updateImagen4potencia, updateImagen5instalacioninterna,
-    updateImagen6potenciainterna, updateImagen7contrato, updateImagen8casa, newupload, corregirDniCliente
+    updateImagen6potenciainterna, updateImagen7contrato, updateImagen8casa, newupload, uploadsPath, corregirDniCliente
 }
