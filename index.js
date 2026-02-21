@@ -42,7 +42,6 @@ app.get('/health', (req, res) => {
   });
 });
 
-
 // Inicializar jobs (agrega esto después de las rutas)
 const initSuspensionJobs = require('./jobs/suspensionJob');
 initSuspensionJobs();

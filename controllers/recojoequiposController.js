@@ -1,26 +1,46 @@
-const recojoequiposService = require('../services/recojoequiposService')
-const multer = require('multer')
+const recojoequiposService = require('../services/recojoequiposService');
+const multer = require('multer');
+const { uploadsPath } = require('../config/uploads');
+const path = require('path');
+const fs = require('fs');
 
-// Configuración de Multer
+
+// Crear directorio de uploads si no existe
+if (!fs.existsSync(uploadsPath)) {
+  fs.mkdirSync(uploadsPath, { recursive: true });
+}
+
+// Configuración de Multer usando la ruta dinámica
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, 'uploads/'); // Directorio donde se guardarán las imágenes
-    },
-    filename: (req, file, cb) => {
-      cb(null, Date.now() + '-' + file.originalname) // Nombre único para el archivo
-    }
-  })
-  // Filtro para solo aceptar imágenes
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith('image/')) {
-    cb(null, true);
-  } else {
-    cb(new Error('Solo se permiten imágenes'), false);
+  destination: (req, file, cb) => {
+    cb(null, uploadsPath); // Usar la ruta dinámica
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const extension = path.extname(file.originalname);
+    cb(null, file.fieldname + '-' + uniqueSuffix + extension);
   }
-};
-  let upload = multer({
-     storage: storage,
-    fileFilter: fileFilter })
+});
+
+const upload = multer({ 
+  storage: storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024 // Límite de 5MB
+  },
+  fileFilter: (req, file, cb) => {
+    // Aceptar solo imágenes
+    const allowedTypes = /jpeg|jpg|png|gif/;
+    const mimeType = allowedTypes.test(file.mimetype);
+    const extName = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+    
+    if (mimeType && extName) {
+      return cb(null, true);
+    }
+    cb(new Error('Solo se permiten archivos de imagen (jpeg, jpg, png, gif)'));
+  }
+});
+
+    // Middleware para subir una imagen
   const newupload = upload.single('image')
 
   //REGISTRAR CORTE POSTE CON EVIDENCIA FOTO
