@@ -22,6 +22,7 @@ const createOrdentrabajo = async(ordentrabajoData)=> {
     const processedData = convertSelectiveToUpper(ordentrabajoData);
     return ordentrabajoModel.createOrdentrabajo(processedData);
 }
+
 const getOrdentrabajo = async(sedeFilter = null)=>{
     if (sedeFilter && typeof sedeFilter !== 'number') {
         throw new Error('Filtro de sede inválido');

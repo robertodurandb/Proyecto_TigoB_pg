@@ -34,9 +34,22 @@ const createOrdentrabajo = async(req, res) => {
     try { 
         const ordentrabajoData = req.body;
         const newOrdentrabajo = await ordentrabajoService.createOrdentrabajo(ordentrabajoData);
-        res.status(201).json(newOrdentrabajo);
+        // Responder con el ID generado
+        res.status(201).json({
+            success: true,
+            message: 'Orden de trabajo creada exitosamente',
+            data: {
+                id_ordentrabajo: newOrdentrabajo.id_ordentrabajo,
+                fecha_creacion: newOrdentrabajo.fecha_create,
+                
+            }
+            
+        });
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(400).json({ 
+            success: false,
+            error: error.message 
+        });
     }
 }
 

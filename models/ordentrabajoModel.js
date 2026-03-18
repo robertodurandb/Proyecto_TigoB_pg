@@ -3,15 +3,20 @@ const pool = require('../database/connectiondb');
 
 const createOrdentrabajo = async(ordentrabajoData) => {
     
-    const { planinicial_idplanes, clienteinicial_dnicliente, diapago, fechaprog_instalacion, horario_instalacion, indicacion_instalacion, costo_instalacion, estado_instalacion, user_create } = ordentrabajoData;
+    const { planinicial_idplanes, clienteinicial_dnicliente, fechaprog_instalacion, horario_instalacion, indicacion_instalacion, costo_instalacion, estado_instalacion, user_create } = ordentrabajoData;
     const client = await pool.connect();
     try {
-        const query = 'INSERT INTO ordentrabajo(planinicial_idplanes, clienteinicial_dnicliente, diapago, fechaprog_instalacion, horario_instalacion, indicacion_instalacion, costo_instalacion, estado_instalacion, user_create) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *';
-        const values = [planinicial_idplanes, clienteinicial_dnicliente, diapago, fechaprog_instalacion, horario_instalacion, indicacion_instalacion, costo_instalacion, estado_instalacion, user_create];
+        const query = 'INSERT INTO ordentrabajo(planinicial_idplanes, clienteinicial_dnicliente, fechaprog_instalacion, horario_instalacion, indicacion_instalacion, costo_instalacion, estado_instalacion, user_create) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id_ordentrabajo, fecha_create';
+        const values = [planinicial_idplanes, clienteinicial_dnicliente, fechaprog_instalacion, horario_instalacion, indicacion_instalacion, costo_instalacion, estado_instalacion, user_create];
         const result = await client.query(query, values);
         console.log("SOY LA ORDENTRABAJO MODEL")
         console.log(result.rows)
-        return result.rows[0];    
+    return {
+            success: true,
+            id_ordentrabajo: result.rows[0].id_ordentrabajo,
+            fecha_create: result.rows[0].fecha_create,
+            ...result.rows[0]
+        };   
     } catch (error) {
         console.log("Error creating OrdenTrabajo: "+error);
         throw error;
