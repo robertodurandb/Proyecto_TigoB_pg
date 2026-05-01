@@ -76,12 +76,16 @@ const checkDniExistsGlobal = async (dni) => {
     try {
         const query = `
             SELECT 
-                dnicliente, 
-                nombrecli, 
-                apellidocli,
-                fecha_create
-            FROM cliente 
-            WHERE dnicliente = $1
+                ic.clienteactual_dnicliente, ic.fecha_create,
+                c.nombrecli, 
+                c.apellidocli, 
+                e.id_estado, e.nombre_estado,
+                s.id_sede, s.nombre_sede
+            FROM instalacion_contrato as ic
+            INNER JOIN estado as e on e.id_estado = ic.estado_servicio
+            INNER JOIN cliente as c on c.dnicliente = ic.clienteactual_dnicliente
+            INNER JOIN sedes as s on s.id_sede = ic.sede_id
+            WHERE clienteactual_dnicliente = $1
             LIMIT 1
         `;  
         const result = await client.query(query, [dni]);

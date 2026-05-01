@@ -1,4 +1,5 @@
 const express = require('express')
+const axios = require('axios');
 const userController = require('../controllers/userController');
 const loginController = require('../controllers/loginController');
 const clienteController = require('../controllers/clienteController');
@@ -13,6 +14,10 @@ const recojoequiposController = require('../controllers/recojoequiposController'
 const historicoController = require('../controllers/historicoController');
 const gestioncrepsController = require('../controllers/gestioncrepsController');
 const MikrotikController = require('../controllers/mikrotikController');
+const dotenv = require('dotenv')
+dotenv.config();
+
+const TOKEN = process.env.TOKEN_API;
 
 const fs = require('fs');
 const path = require('path');
@@ -174,6 +179,48 @@ router.get('/getlogs', verifyToken, (req, res) => {
 
 //RUTAS ESTADOS
 router.get('/getestados', verifyToken, estadoController.getEstados);
+
+// --- Ruta para consultar DNI ---
+router.get('/consultar-dni/:dni', verifyToken, async (req, res) => {
+  const { dni } = req.params;
+  const tokenAPI = TOKEN
+
+  // Validación simple del DNI (8 dígitos)
+  if (!dni || !/^\d{8}$/.test(dni)) {
+    return res.status(400).json({ error: 'DNI inválido. Debe tener 8 dígitos.' });
+  }
+
+  try {
+    // La URL base según documentación: https://apiperu.dev/api/dni/{dni}?api_token={token}
+    const url = `https://apiperu.dev/api/dni/${dni}?api_token=${tokenAPI}`;
+    
+    const response = await axios.get(url);
+    
+    
+    // apiperu.dev suele devolver { success: true, data: { ... } } en caso correcto.
+    if (response.data && response.data.success === true) {
+        console.log("se encontro el dni")
+      // Envía los datos de la persona al frontend
+      return res.json({
+        success: true,
+        data: response.data.data // Ajusta según la estructura real de la API
+      });
+    } else {
+      // Si la API devuelve un error controlado (ej. DNI no encontrado)
+      console.log("dni no encontrado")
+      return res.status(404).json({ error: response.data.message || 'DNI no encontrado.' });
+    }
+
+  } catch (error) {
+    console.error(`Error consultando DNI ${dni}:`, error.response?.data || error.message);
+    // Manejo de errores de la API
+    if (error.response && error.response.status === 401) {
+      return res.status(500).json({ error: 'Error de autenticación con el servicio externo.' });
+    }
+    
+    return res.status(500).json({ error: 'Error al consultar el DNI.' });
+  }
+});
 
 
 module.exports = router;
