@@ -42,6 +42,75 @@ const updateOrdentrabajo = async (id, contratoData) =>{
     }
 }
 
+//FUNCION PARA ELIMINAR UNA ORDEN DE TRABAJO Y CLIENTE
+const eliminarOrdenYClientePorDNI = async (dni) => {
+  const client = await pool.connect();
+  
+  try {
+    await client.query('BEGIN');
+
+    // 1. Verificar que el cliente existe y obtener sus datos
+    const clienteResult = await client.query(
+      `SELECT dnicliente, nombrecli, apellidocli 
+       FROM cliente 
+       WHERE dnicliente = $1`,
+      [dni]
+    );
+
+    if (clienteResult.rows.length === 0) {
+      throw new Error(`Cliente con DNI ${dni} no encontrado`);
+    }
+    const clienteData = clienteResult.rows[0];
+
+    // 2. Obtener la(s) Orden(es) de Trabajo asociada(s) al cliente
+    const ordenesResult = await client.query(
+      `SELECT id_ordentrabajo, user_create, clienteinicial_dnicliente
+       FROM ordentrabajo 
+       WHERE clienteinicial_dnicliente = $1`,
+      [dni]
+    );
+    if (ordenesResult.rows.length === 0) {
+      throw new Error(`No se encontraron órdenes de trabajo para el DNI ${dni}`);
+    }
+    const ordenesData = ordenesResult.rows;
+
+    // 3. Eliminar las órdenes de trabajo del cliente
+    await client.query(
+      'DELETE FROM ordentrabajo WHERE clienteinicial_dnicliente = $1',
+      [dni]
+    );
+
+    // 4. Eliminar el cliente
+    await client.query(
+      'DELETE FROM cliente WHERE dnicliente = $1',
+      [dni]
+    );
+    await client.query('COMMIT');
+
+    return {
+      success: true,
+      message: `Cliente con DNI ${dni} y sus ${ordenesData.length} orden(es) de trabajo eliminados correctamente`,
+      data: {
+        clienteEliminado: clienteData,
+        ordenesEliminadas: ordenesData,
+        totalOrdenesEliminadas: ordenesData.length
+      }
+    };
+
+  } catch (error) {
+    await client.query('ROLLBACK');
+    console.error('Error en transacción eliminarOrdenYClientePorDNI:', error); 
+    return {
+      success: false,
+      message: error.message || 'Error al eliminar el cliente y sus órdenes'
+    };
+  } finally {
+    client.release();
+  }
+};
+
+
+
 const getOrdentrabajo = async() => {
     try {
         const result = await pool.query("SELECT * FROM ordentrabajo");
@@ -146,5 +215,5 @@ const getOrdenesConInstaForUser = async(id) => {
 
 
 module.exports = {
-    createOrdentrabajo, updateOrdentrabajo, getOrdentrabajo, getOrdentrabajoById, getOrdenesConInsta, getOrdenesSinInsta, getOrdenesConInstaForUser
+    createOrdentrabajo, updateOrdentrabajo, getOrdentrabajo, getOrdentrabajoById, getOrdenesConInsta, getOrdenesSinInsta, getOrdenesConInstaForUser, eliminarOrdenYClientePorDNI
 }

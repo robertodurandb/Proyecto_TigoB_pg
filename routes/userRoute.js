@@ -85,6 +85,9 @@ router.get('/orders_pending', verifyToken, requireAdminOrVentas, authorizeSede()
 router.get('/orders_pending_tecnico', verifyToken, requireAdminOrTecnico, authorizeSede(), ordentrabajoController.getOrdenesSinInsta);//pendinstacli
 router.get('/orders_install_user/:id', verifyToken, requireAdminOrTecnico, ordentrabajoController.getOrdenesConInstaForUser);//todoinstacliforuser
 
+// Ruta para eliminar la OT por DNI (DELETE)
+router.delete('/delete_ot/:dni', verifyToken, requireAdmin, ordentrabajoController.eliminarClienteYOrdenes);
+
 //RUTAS PLANES
 router.get('/getplanes', verifyToken, planController.getPlanes);
 router.get('/getplanesmain', verifyToken, requireAdmin, planController.getPlanes);

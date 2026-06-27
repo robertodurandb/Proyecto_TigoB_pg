@@ -107,7 +107,48 @@ const getOrdenesConInstaForUser = async(req, res) => {
     }
 }
 
+const eliminarClienteYOrdenes = async (req, res) => {
+  try {
+    const { dni } = req.params;
+    // Llamar al servicio
+    const result = await ordentrabajoService.eliminarClienteYOrdenesPorDNI(dni);
+    // Respuesta exitosa
+    return res.status(200).json({
+      success: true,
+      message: result.message,
+      data: {
+        cliente: result.data.clienteEliminado,
+        ordenesEliminadas: result.data.ordenesEliminadas,
+        totalEliminados: result.data.totalOrdenesEliminadas + 1 // +1 por el cliente
+      }
+    });
+
+  } catch (error) {
+    console.error('Error en controller eliminarClienteYOrdenes:', error);
+    
+    // Manejo de errores específicos
+    if (error.message.includes('DNI inválido')) {
+      return res.status(400).json({
+        success: false,
+        error: error.message
+      });
+    }
+
+    if (error.message.includes('no encontrado') || error.message.includes('No se encontraron órdenes')) {
+      return res.status(404).json({
+        success: false,
+        error: error.message
+      });
+    }
+
+    return res.status(500).json({
+      success: false,
+      error: 'Error interno del servidor'
+    });
+  }
+};
+
 
 module.exports = {
-    getOrdentrabajo, getOrdentrabajoById, createOrdentrabajo, updateOrdentrabajo, getOrdenesSinInsta, getOrdenesConInsta, getOrdenesConInstaForUser
+    getOrdentrabajo, getOrdentrabajoById, createOrdentrabajo, updateOrdentrabajo, getOrdenesSinInsta, getOrdenesConInsta, getOrdenesConInstaForUser, eliminarClienteYOrdenes
 }

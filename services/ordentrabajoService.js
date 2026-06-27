@@ -54,6 +54,17 @@ const getOrdenesConInstaForUser = async(id)=>{
     return ordentrabajoModel.getOrdenesConInstaForUser(id);
 }
 
+const eliminarClienteYOrdenesPorDNI = async (dni) => {
+  // Ejecutar la eliminación en el modelo
+  const result = await ordentrabajoModel.eliminarOrdenYClientePorDNI(dni);
+  if (!result.success) {
+    throw new Error(result.message);
+  }
+  // Log de auditoría
+  console.log(`✅ Cliente DNI ${dni} y ${result.totalOrdenesEliminadas} órdenes eliminados`);
+  return result;
+};
+
 module.exports={
-    createOrdentrabajo, updateOrdentrabajo, getOrdentrabajo, getOrdentrabajoById, getOrdenesSinInsta, getOrdenesConInsta, getOrdenesConInstaForUser
+    createOrdentrabajo, updateOrdentrabajo, getOrdentrabajo, getOrdentrabajoById, getOrdenesSinInsta, getOrdenesConInsta, getOrdenesConInstaForUser, eliminarClienteYOrdenesPorDNI
 }
